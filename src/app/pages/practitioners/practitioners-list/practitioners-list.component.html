@@ -1,0 +1,66 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Practitioners"></app-pagetitle>
+            <div class="d-flex align-items-center gap-2">
+                <!-- <input (ngModelChange)=onchaneg($event) [(ngModel)]="pracatSearch" type="text" class="form-control search-input" placeholder="Search..." style="width:500px;max-width: 100%;"> -->
+                <app-createicon routerLink="{{Practitionerscreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>
+    <div class="card p-3 mb-2">
+        <div class="row align-items-end">
+            <div class="col-md-2">
+                <app-inputcontrol [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date"
+                    inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-2">
+                <app-inputcontrol [(inputModel)]="toDate" [star]="false" lblname="To Date" type="date"
+                    inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Type</label>
+                <div>
+                    <select class="form-select textbox" #type (change)="ontype()">
+                        <option value="-" selected>Select Type</option>
+                        <option>All</option>
+                        <option>Self</option>
+                        <option>Admin</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Group</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Group" filedName="name" fieldId="id"
+                    (selectedvalue)=ongroup($event) [options]="groptions"
+                    [filteredOptions]="grfilteredOptions"></app-searchdropdownconcomponent>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label mb-1">Practitioner Category</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner Category" filedName="name"
+                    fieldId="id" (selectedvalue)=onpracat($event) [options]="pracatoptions"
+                    [filteredOptions]="pracatfilteredOptions"></app-searchdropdownconcomponent>
+            </div>
+            <div class="col-md-1">
+                <button name="search" (click)="onsearch()"
+                    class="btn btn-secondary text-white rounded-3 px-3 my-md-0 my-3" style="padding: 8px;"><i
+                        class="bi bi-search"></i></button>
+            </div>
+            <div class="col-md-12 mt-md-3 mt-2">
+                <label class="form-label mb-1 d-none d-md-block"></label>
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text"
+                    class="form-control search-input mt-md-0 mt-3" placeholder="Search..." style="height: 40px;">
+            </div>
+        </div>
+    </div>
+
+    <app-practitionersloader *ngIf="Practitionerslistloading"></app-practitionersloader>
+    <div class="practioners-table-list">
+        <app-table [searchString]="searchString1" *ngIf="!Practitionerslistloading" [tableList]="tableTdlist"
+        [tableData]="Practitionerslist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName"
+        [displayhead]="tableThlist2"  (onedit)="editpractitioners($event)"
+        (ondetail)="detailpractitioners($event)" [isdetail]="true" (ondelete)="deletePractitioner($event)"></app-table>
+    </div>
+    
+    <app-datanotfound *ngIf="!Practitionerslistloading && Practitionerslist.length == 0"></app-datanotfound>
+</main>

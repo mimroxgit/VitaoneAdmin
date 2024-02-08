@@ -1,0 +1,39 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="Contact Inquiry"></app-pagetitle>
+          <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">                     
+            <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString"/>                         
+          </div>
+      </div>
+  </div>
+        <app-inquiryloaders *ngIf="Inqlistloading"></app-inquiryloaders>         
+        <div class="row" *ngIf="!Inqlistloading">
+            <div class="col-md-12">
+                <div class="card p-3 border-0">            
+                <div class="table-responsive">
+                    <table class="table data-list mb-0">                  
+                          <tr>   
+                            <th>Date</th>
+                            <th>First Name</th>                                                    
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Contact</th>  
+                            <th>Message</th>                                                  
+                          </tr>                        
+                            <tr *ngFor="let item of Inqlist | searchFilter:searchString">
+                                <td class="text-nowrap">{{item.cntDate | date:"d-MM-yyyy"}}</td>
+                                <td class="text-nowrap">{{item.cntFirstName}}</td>
+                                <td class="text-nowrap">{{item.cntLastName}}</td>
+                                <td class="text-nowrap">{{item.cntEmail}}</td>
+                                <td class="text-nowrap">{{item.cntPhone}}</td>
+                                <td class="text-nowrap">{{item.cntMessage }}</td>
+                            </tr>
+                        
+                    </table>         
+            </div>    
+        </div>
+        </div>
+        </div>
+        <app-datanotfound *ngIf="!Inqlistloading && Inqlist.length == 0"></app-datanotfound>
+  </main>

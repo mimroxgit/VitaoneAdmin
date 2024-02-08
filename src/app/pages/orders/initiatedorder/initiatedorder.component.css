@@ -1,0 +1,35 @@
+th {
+    font-weight: 700 !important;
+    color: rgba(0,0,0,.7);
+}
+
+.dot{
+	width: 10px;height: 10px;border-radius: 50%;
+	display: inline-block;background-color: grey;
+  }
+  .Pending {
+	background-color: #418df1;
+  }
+  .Processing{
+	background-color: rgb(50, 137, 190);
+  }
+  .ReadytoShipped{
+	background-color: #305483;
+  }
+  .Dispatch{
+	background-color: maroon;
+	-color: red;
+  }
+  .Delivered{background-color: green;}
+  .Rejected{background-color: red;}
+  .Cancel{background-color: rgb(194, 14, 155);}
+  .form-select{
+    -height: 48px !important;
+  }
+
+  .loader-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}

@@ -1,0 +1,20 @@
+<div class="main-dv">
+    <div class="account-page shadow-sm">
+        <div class="login-left">
+            <img  src="/assets/images/login.png" class="img-fluid">
+          </div>
+        <form  #form="ngForm" class="login-right">
+            <div style="align-self:center">
+            <app-logo routerLink="{{loginurl}}" logostyle="logo mb-4"></app-logo>
+            <h4 class="text-center mb-1 fw-bold">Forgot Password</h4>
+            <p class="small text-center">Please enter below details to continue.</p>
+            <app-floatinginputcontrol errmsg="{{emailMessage}}"  [(inputModel)]="username" lblname="Email" type="email" placeholder="" inputstyle="login-textbox" inptclass="mb-3"></app-floatinginputcontrol>
+            <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"  btnstyle="btn bg-theme2 text-white w-100 btn-lg" btnname="Continue"></app-buttoncontrolconcomponent>
+            <p class="text-center {{textClass}} small mt-1" id="err">{{this.mes}}</p>
+        </div>
+        </form>
+        <div class="loader-img-login">
+            <img *ngIf="loading" src="/assets/images/loader.gif" style="width: 50px;height: 50px;object-fit: contain;" />
+        </div>
+    </div>
+</div>

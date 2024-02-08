@@ -1,0 +1,14 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="Payment Gateway Integration"></app-pagetitle>
+          <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">                      
+            <!-- <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>               -->
+              <app-createicon  routerLink="{{paymentgatewaycreateurl}}"></app-createicon>
+          </div>
+      </div>
+  </div>
+        <app-paymentgatewaylistloader *ngIf="paymentgatewaylistloading"></app-paymentgatewaylistloader>         
+        <app-table [searchString]="searchString1" *ngIf="!paymentgatewaylistloading" [tableList]="tableTdlist" [tableData]="paymentgatewaylist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2" (onedit)="editpgi($event)" (ondelete)="deletepgi($event)"  ></app-table>    
+        <app-datanotfound *ngIf="!paymentgatewaylistloading && paymentgatewaylist.length == 0"></app-datanotfound>
+  </main>

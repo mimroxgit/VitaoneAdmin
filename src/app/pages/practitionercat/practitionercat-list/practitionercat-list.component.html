@@ -1,0 +1,13 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-md-flex justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Practitioner Categories"></app-pagetitle>
+            <div class="d-flex align-items-center gap-2  mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="pracatSearch" type="text" class="form-control search-input mb-md-0 mb-0" placeholder="Search..." >
+                <app-createicon  routerLink="{{Pracategoriescreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>    
+    <app-categoryblock [searchString]="pracatSearch"  [isloder]="pracategorielistloading"  [catalogue]="pracategorielist" (onscroll)="onScroll()" (onedit)="editPraCat($event)" (ondelete)="deleteParCat($event)"></app-categoryblock>    
+    <app-datanotfound *ngIf="!pracategorielistloading && pracategorielist.length == 0"></app-datanotfound>
+</main>

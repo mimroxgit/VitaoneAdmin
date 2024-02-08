@@ -1,0 +1,61 @@
+<header id="header" class="header fixed-top d-flex align-items-center">
+   <div class="d-flex align-items-center justify-content-between">
+      <a routerLink="/dashboard" class="logo d-flex align-items-center">
+         <app-logo logostyle="logo-img-header"></app-logo>
+      </a>
+      <i (click)="sidebarToggle()" class="bi bi-list toggle-sidebar-btn d-none d-md-block"></i>
+   </div>
+   <nav class="header-nav ms-auto">
+      <ul class="d-flex align-items-center mobile-header">
+         <li class="nav-item d-block d-lg-none"> <a class="nav-link nav-icon search-bar-toggle "> <i (click)="sidebarToggle()" class="bi bi-list-nested toggle-sidebar-btn"></i> </a></li>
+         <li class="nav-item dropdown pe-md-3">
+            <a class="nav-link nav-profile d-flex align-items-center pe-0" data-bs-toggle="dropdown">
+               <img src="https://static.thenounproject.com/png/1743561-200.png" alt="Profile" class="rounded-circle bg-white" style="opacity: 0.6;">
+
+               <!-- <span class="d-none d-md-block dropdown-toggle ps-2">
+                  <span>{{userName}}</span>
+               </span> -->
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+               <li class="dropdown-header">
+                  <h6 class="mb-0">{{userName}}</h6>
+                  <span *ngFor="let dt of data">{{dt.userrole}}</span>
+               </li>
+               <li>
+                  <hr class="dropdown-divider">
+               </li>
+               <li>
+                  <a class="dropdown-item d-flex align-items-center" routerLink="/user-profile"> <i class="bi bi-person"></i> <span>My Profile</span> </a>
+               </li>
+               <li>
+                  <hr class="dropdown-divider">
+               </li>
+               <li>
+                  <a class="dropdown-item d-flex align-items-center" routerLink="{{settingsUrl}}"> <i class="bi bi-gear"></i> <span>Account Settings</span> </a>
+               </li>
+               <li>
+                  <hr class="dropdown-divider">
+               </li>
+               <li>
+                  <a class="dropdown-item d-flex align-items-center" href="#hedAlogout" data-bs-toggle="modal"> <i class="bi bi-box-arrow-right"></i> <span>Sign Out</span> </a>
+               </li>
+            </ul>
+         </li>
+      </ul>
+   </nav>
+</header>
+<div class="modal fade" id="hedAlogout">
+   <div class="modal-dialog modal-sm modal-dialog-centered">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h6 class="mb-0">Logout</h6>
+               <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+           </div>
+           <div class="card-body pt-3 px-1">
+               <p class="text-center small">Are You sure you want to logout ?</p>
+               <button class="btn btn-cancel btn-sm float-end text-decoration-none text-dark" data-bs-dismiss="modal">Cancel</button>
+               <button class="btn btn-theme btn-sm float-end text-decoration-none text-white me-2" data-bs-dismiss="modal" (click)="logout()">Logout</button>
+           </div>
+       </div>
+   </div>
+</div>

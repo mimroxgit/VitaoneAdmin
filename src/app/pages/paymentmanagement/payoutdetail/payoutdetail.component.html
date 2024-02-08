@@ -1,0 +1,124 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-flex flex-wrap  justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Transaction / {{practionerName}}"></app-pagetitle>    
+            <div class="row align-items-end justify-content-end flex-grow-1">                 
+                <div class="col-md-6 col-12 my-md-0 my-2 text-end">                    
+                    <a class="btn btn-cancel" routerLink="{{paymentlisturl}}">Back</a>
+                </div>                                                
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" *ngIf="practrnlistloading">    
+        <app-transactionloadercomponents></app-transactionloadercomponents>
+    </div>
+    <div class="row" *ngIf="!practrnlistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">                 
+                <div class="row align-items-center flex-grow-1 mb-3">
+                    <div class="col-md-6">
+                        <app-pagetitle pagetitle="Payable Remuneration"></app-pagetitle> 
+                    </div>                 
+                    <div class="col-md-6 col-12 my-md-0 my-2 d-flex gap-2">
+                        <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>                                     
+                    </div>                                                
+                </div>
+            <div class="table-responsive">
+                <table class="table data-list mb-0">                  
+                      <tr>
+                        <th>#</th>
+                        <th class="text-nowrap">Date</th>                        
+                        <th>Order Id</th>                       
+                        <th>Order Amount</th>
+                        <th class="text-end" style="width: 180px;">Payable Remuneration</th>                        
+                      </tr>                                        
+                        <tr *ngFor="let tr of practrnlist | searchFilter:searchString1">                            
+                            <td><input  type="checkbox" (click)="allselect($event,tr)" class="form-check-input" [checked]="IsAllselect"></td>                            
+                            <td class="text-nowrap">{{tr.orderDate | date:"d-MM-yyyy"}}</td>
+                            <td><a routerLink="/{{orderdetailsurl}}/{{tr.orderId}}" class="ps-0">{{tr.orderNo}}</a></td>                                              
+                            <td>{{tr.orderAmount}}</td>
+                            <td class="text-start ps-md-4" style="width: 180px;">{{tr.commisionAmount}}</td>                                                                                                          
+                        </tr>                                          
+                </table>         
+        </div>    
+
+        <div class="py-3 d-flex align-items-center justify-content-between" *ngIf="practrnlist.length>=1">
+            <h5 class="mb-0"><app-pagetitle pagetitle="Total"></app-pagetitle></h5>
+            <div class="d-flex justify-content-between align-items-center gap-3">
+                <h5 class="mb-0 fw-bold text-dark">{{ttamount}}</h5>   
+                <button type="button" class="btn bg-theme2 text-white" data-bs-toggle="modal" data-bs-target="#paynow1">Pay now</button>                                   
+            </div>
+        </div> 
+
+    </div>
+    </div>
+    </div>
+   
+    <app-datanotfound *ngIf="!practrnlistloading && practrnlist.length == 0"></app-datanotfound>
+
+    <!---------------------------Transaction Paid------------------------------>
+     
+    <div class="row" *ngIf="!practrnlistloading && practrnlistpaid.length >= 1">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">                 
+                <div class="row align-items-center flex-grow-1 mb-3">
+                    <div class="col-md-6">
+                        <app-pagetitle pagetitle="Paid Remuneration"></app-pagetitle> 
+                    </div>                 
+                    <div class="col-md-6 col-12 my-md-0 my-2 d-flex gap-2">
+                        <input (ngModelChange)=onchanegpaid($event) type="text" class="form-control search-input"  name="searchStringpaid" placeholder="Type to search..." [(ngModel)]="searchStringpaid"/>                                     
+                    </div>                                                
+                </div>
+
+            <div class="table-responsive">
+                <table class="table data-list mb-0">                  
+                      <tr>                        
+                        <th class="text-nowrap">Date</th>                        
+                        <th>Order Id</th>                       
+                        <th>Order Amount</th>
+                        <th class="text-end" style="width: 180px;">Paid Remuneration</th>                        
+                      </tr>                                        
+                        <tr *ngFor="let trpaid of practrnlistpaid | searchFilter:searchStringpaid">                                                       
+                            <td class="text-nowrap">{{trpaid.orderDate | date:"d-MM-yyyy"}}</td>
+                            <td><a routerLink="/{{orderdetailsurl}}/{{trpaid.orderId}}" class="ps-0">{{trpaid.orderNo}}</a></td>                                              
+                            <td>{{trpaid.orderAmount}}</td>
+                            <td class="text-end ps-md-4" style="width: 180px;">{{trpaid.commisionAmount}}</td>                                                                                                          
+                        </tr>                                          
+                </table>         
+        </div>  
+        <div class="py-3 d-flex align-items-center justify-content-between" *ngIf="practrnlistpaid.length>=1">
+            <h5 class="mb-0"><app-pagetitle pagetitle="Total"></app-pagetitle></h5>
+            <div class="d-flex justify-content-between align-items-center gap-3">
+                <h5 class="mb-0 fw-bold text-dark">{{ttamountpaid}}</h5>                   
+            </div>
+        </div>          
+    </div>
+    </div>
+    </div>    
+    <!-----------------------------Paid------------------------------>
+</main>
+
+<div class="modal fade" id="paynow1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="mb-0 fw-bold">Pay Now</h6>
+                <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="card-body">
+                <app-inputcontrol lblname="Date" [(inputModel)]="paymentDate" type="date"
+                inptclass="mt-0" inputstyle="textbox mb-3 w-100"></app-inputcontrol>
+
+                <div class="col-md-12">
+                    <app-labelcontrolconcomponent label="Message" [star]="false"></app-labelcontrolconcomponent>
+                    <app-textareacontrolcontrolcomponent  [(inputModel)]="remark" tareastyle="mb-md-1 rounded-0"></app-textareacontrolcontrolcomponent>
+                </div>
+
+                <button type="button" (click)="onSubmit()" data-bs-dismiss="modal" class="btn btn-theme w-100 text-white mt-2">Pay Now</button>
+            </div>
+           
+        </div>
+    </div>
+ </div>
+

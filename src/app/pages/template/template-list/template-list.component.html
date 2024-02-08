@@ -1,0 +1,14 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Protocol"></app-pagetitle>  
+            <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>
+                <app-createicon  routerLink="{{templatecreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>   
+    <app-templateloader *ngIf="templatelistloading"></app-templateloader>        
+    <app-table [searchString]="searchString1" *ngIf="!templatelistloading" [tableList]="tableTdlist" [tableData]="templatelist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2" (onedit)="edittemplate($event)" (ondelete)="deletetmp($event)"></app-table>     
+    <app-datanotfound *ngIf="!templatelistloading && templatelist.length == 0"></app-datanotfound>
+</main>

@@ -1,0 +1,88 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Patients"></app-pagetitle>  
+            <div class="">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+            </div>
+        </div>
+    </div> 
+    <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            
+            <div class="col-md-3 mb-2">
+                <label class="form-label mb-1">Practitioner</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner" filedName="name" fieldId="id" (selectedvalue)=onPrac($event)  [options]="pracatoptions" [filteredOptions]="pracatfilteredOptions" ></app-searchdropdownconcomponent>
+            </div>
+            <div class="col-md-2 mb-2">
+                <label class="form-label mb-1">Reg By</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=regBydd($event);>
+                    <option value="All">All</option>
+                        <option value="{{ordby.Name}}" *ngFor="let ordby of registerByDD" >{{ordby.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-1 mb-2">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div>
+    <div class="row" *ngIf="patientlistloading">    
+        <app-patientlistloader></app-patientlistloader> 
+    </div>
+    <div class="row" *ngIf="!patientlistloading">
+        <div class="col-md-12">
+            <div class="card p-3 border-0">            
+            <div class="table-responsive">
+                <table class="table data-list mb-0">                  
+                      <tr>   
+                        <th>Date</th>                                                          
+                        <th>Patient</th>
+                        <th>Contact</th>
+                        <th>Email</th>
+                        <th>Practitioner</th>
+                        <th>Reg By</th>
+                        <th>Action</th>
+                      </tr>                    
+                        <tr *ngFor="let item of patientlist | searchFilter:searchString | paginate: { itemsPerPage: 10, currentPage: p }">
+                            <td class="text-nowrap">{{item.regDate | date:"d-MM-yyyy"}}</td>
+                            
+                            <td>
+                                <div style="width: 200px;">
+                                    {{item.name}}
+                                </div>
+                            </td>
+                            <td>{{item.contact}}</td>                            
+                            <td>{{item.email}}</td>
+                            <td>
+                                <div style="width: 150px;">
+                                    {{item.practitionerName}}
+                                </div>
+                            </td>
+                            <td>{{item.regBy}}</td>
+                            <td class="text-end">
+                                <div class="d-flex gap-1 justify-content-end">
+                               
+                                <a routerLink="{{patientdetailsurl}}/{{item.id}}" class="btn border btn-sm text-primary shadow-sm py-1 me-1"><i class="bi bi-eye"></i></a> 
+                               
+                            </div>
+                            </td>
+                            
+                           
+                        </tr>
+                    
+                </table>         
+        </div>   
+        <div style="padding:15px;">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>   
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!patientlistloading && patientlist.length == 0"></app-datanotfound>
+</main>

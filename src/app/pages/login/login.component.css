@@ -1,0 +1,12 @@
+.loader-img-login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+
+  .error:empty{
+    -border: 1px solid red;
+    display: none;
+    margin-bottom: 0;
+  }

@@ -1,0 +1,103 @@
+th {
+    font-weight: 700 !important;
+    color: rgba(0,0,0,.7);
+}
+
+.dot{
+	width: 10px;height: 10px;border-radius: 50%;
+	display: inline-block;background-color: grey;
+  }
+  .Pending {
+	background-color: #418df1;
+  }
+  .Processing{
+	background-color: rgb(50, 137, 190);
+  }
+  .ReadytoShipped{
+	background-color: #305483;
+  }
+  .Dispatch{
+	background-color: maroon;
+	-color: red;
+  }
+  .Delivered{background-color: green;}
+  .Rejected{background-color: red;}
+  .Cancel{background-color: rgb(194, 14, 155);}
+  .form-select{
+    -height: 48px !important;
+  }
+
+
+  .col-md-2-5 {
+    flex: 0 0 auto;
+    width: 14.28%;
+  }
+
+  
+
+  .processing-block1{
+    background-color: rgb(66, 133, 244,0.3);
+    color: #000;
+  }
+  .processing-block1 span{
+    background-color: rgb(66, 133, 244);
+  }
+  .processing-block2{
+    background-color: rgb(50, 137, 190,0.3);
+    color: #000;
+  }
+  .processing-block2 span{
+    background-color: rgb(50, 137, 190);
+  }
+  .processing-block3{
+    background-color: rgb(176, 59, 104,0.3);
+    color: #000;
+  }
+  .processing-block3 span{
+    background-color: rgb(176, 59, 104);
+  }
+  .processing-block4{
+    background-color: rgb(126, 169, 45,0.3);
+    color: #000;
+    -background-color: rgb(216, 138, 13,0.3);
+    -color: #000;
+  }
+  .processing-block4 span{
+    background-color: rgb(126, 169, 45);
+    -background-color: rgb(216, 138, 13);
+  }
+  .processing-block5{
+    background-color: rgb(219, 15, 215,0.2) ;
+    color: #000;
+  }
+  .processing-block5 span{
+    background-color: rgb(219, 15, 215);
+  }
+
+  .processing-block6{
+    background-color: rgb(255, 0, 0,0.2);
+    color: #000;
+  }
+  .processing-block6 span{
+    background-color: rgb(255, 0, 0);
+  }
+  .processing-block7{
+    background-color: rgb(9, 163, 191,0.3) ;
+    color: #000;
+  }
+  .processing-block7 span{
+    background-color: rgb(9, 163, 191);
+  }
+  
+  .main-processing-card h6{
+    font-size: 15px;
+  }
+
+  @media (max-width:575px) {
+      
+  .col-md-2-5 {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  }

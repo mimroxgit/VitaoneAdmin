@@ -1,0 +1,19 @@
+<img *ngIf="pageloading" src="/assets/images/loader.gif" class="loader" />
+
+<div class="login-sec shadow-sm" *ngIf="resetpage">
+    <app-logo logostyle="logo mb-2"></app-logo>
+    <form #form="ngForm" class="p-2 pb-3">
+        <input type="hidden" name="resetId" value="{{resetId}}" />
+        <app-floatinginputcontrol errmsg="{{passwordMessage}}" [(inputModel)]="Password" lblname="Password" type="password" placeholder="Password" inptclass="mb-3"></app-floatinginputcontrol>
+        <app-floatinginputcontrol errmsg="{{confpasswordMessage}}" [(inputModel)]="confPassword" lblname="Confirm Password" type="password" placeholder="Password" inptclass="mb-3"></app-floatinginputcontrol>
+        <div class="text-center"><span class="text-danger small">{{dosnotmatch}}</span></div>
+        <app-accountbuttoncomponent [buttondisable]="loading" (click)="onSubmit(form)" loginbtnname="Submit" stylebtn="btn-lg bg-theme text-white w-100 border-0 mt-3"></app-accountbuttoncomponent>
+        <div class="text-center"><span class="text-danger small">{{mes}}</span></div>
+        &nbsp;&nbsp;&nbsp;
+        <img *ngIf="loading" src="/assets/images/loader.gif" />
+    </form>
+</div>
+<div class="un-autorised text-center" *ngIf="Failed">
+    <h2>Unauthorized Access !</h2>
+    <a routerLink="/login">Go to login</a>
+</div>

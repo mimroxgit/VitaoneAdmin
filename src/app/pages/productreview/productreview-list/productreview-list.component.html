@@ -1,0 +1,76 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Product Review"></app-pagetitle>  
+            <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">
+                <app-createicon  routerLink="{{productreviewcreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>    
+    
+<div class="card p-3" *ngIf="!Reviewlistloading" >    
+    <div class="table-responsive">
+        <table class="table data-list mb-0">
+            <tr>
+                <th>Photo</th>
+                <th>Name</th> 
+                <th>Designation</th>
+                <th>Review Message</th>
+                <th>Rattings</th>
+                <th>Action</th>
+            </tr>
+            <tr *ngFor="let item of Reviewlist | searchFilter:searchString1">
+
+                <td>                    
+                    <div>                                                
+                        <img *ngIf="item.prmPhoto != '-' && item.prmPhoto != null " width="50" height="50" src="{{imgeUrl}}/{{item.prmPhoto}}">
+                        <img *ngIf="item.prmPhoto == '-' || item.prmPhoto == null " width="50" height="50" src="/assets/images/dummyuse.jpg">
+                    </div>
+                                      
+                </td>                               
+                <td>{{item.prmName}}</td>
+                <td>{{item.prmDesignation}}</td>
+                <td>
+                    <div style="width:400px">
+                    {{item.prmMessage}}
+                </div>
+                </td>
+                <td>
+                    <b class="text-info">{{item.prmRate}} star</b>
+                </td>
+                <!-- <td *ngIf="item== true"><span class="badge badge-active rounded-pill fw-normal">Active</span></td>
+                <td *ngIf="item == false"><span class="badge badge-deactive rounded-pill fw-normal">Deactive</span></td> -->
+                <td class="text-end">
+                    <div class="d-flex gap-1 justify-content-end">   
+                        <a (click)="edit(item)" class="btn border btn-sm text-theme2 shadow-sm py-1 me-1"><i class="bi bi-pencil"></i></a>                                    
+                    <a  href="#DeleteModal" (click)="setModalpopup(item)"  data-bs-toggle="modal" class="btn btn-white btn-sm text-danger border py-1"><i class="bi bi-trash"></i></a>
+
+                    <!-- <a  (click)="setRDisplay(item)"  data-bs-toggle="modal" class="btn btn-white btn-sm text-primary border py-1"><i class="bi bi-eye" *ngIf="item.prmIsDisplay==false"></i><i class="fa-regular fa-eye-slash" *ngIf="item.prmIsDisplay==true"></i> {{item.prmIsDisplay==true?"Not approved":"approved"}}</a> -->
+                </div>
+                </td>
+            </tr>
+ 
+           
+        </table>
+        <div class="modal fade" tabindex="-1" id="DeleteModal">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header border-0">         
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="/assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-2" width="70">
+                    <b>Delete Record of <b class="text-theme">{{Item?Item.prmName:""}}</b></b>
+                    <p class="small text-secondary">Are you sure you want to delete this record ?</p>
+        
+                    <button (click)="deletecnt(Item)"  data-bs-dismiss="modal" class="btn btn-danger">OK</button>
+                </div>       
+              </div>
+            </div>
+          </div>
+    </div>
+</div> 
+    <app-productreviewloadercomponents *ngIf="Reviewlistloading"></app-productreviewloadercomponents>
+    <app-datanotfound *ngIf="!Reviewlistloading && Reviewlist.length == 0"></app-datanotfound>
+</main>

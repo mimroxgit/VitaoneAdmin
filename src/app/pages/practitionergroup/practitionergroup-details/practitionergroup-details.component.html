@@ -1,0 +1,92 @@
+<main class="main" id="main">    
+    <form #form="ngForm">
+    <div class="card p-3">        
+        <div class="d-flex justify-content-between align-items-center">  
+            <h4 class="mb-0">{{pgmName}}</h4>      
+            <a routerLink="{{practitionergrouplistUrl}}" class="btn btn-cancel">Back</a>    
+        </div>
+    </div>    
+    <div class="card p-3">
+        <app-pagetitle pagetitle="Items Discount Details"></app-pagetitle>
+        <app-prd-discount-detailloader *ngIf="loading"></app-prd-discount-detailloader>        
+        <div class="table-responsive mt-3"*ngIf="!loading" >
+            <table class="table data-list product-discount">
+                <tr>
+                    <th style="width:200px;padding-left: 25px;">
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">Products</label>
+                        </div>
+                    </th>
+                    <th>Variants</th>
+                    <th>Cost Price</th>
+                    <th>MRP</th>
+                    <th>Practitoner Margin (in %)</th>
+                    <th>Practitioner Margin (in Amount)</th>
+                    <th>Practitioner Price</th>
+                </tr>
+                <tr *ngFor="let itm of itmactivelist;let i = index">                    
+                    <td>
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">                                
+                                {{itm.itmName}}
+                            </label>
+                        </div>
+                    </td>
+                    <td>{{itm.itmVName}}</td>
+                    <td>Rs {{itm.itmCostPrice}}</td>
+                    <td>{{itm.itmMrp}}</td>
+                    <td>{{itm.itmPDiscount}}</td>
+                    <td>{{itm.itmPDiscountAmount}}</td>
+                    <td>Rs {{itm.itmPPrice}}</td>
+                </tr>    
+            </table>            
+        </div>
+    </div>
+    <div class="card p-3">
+        <app-pagetitle pagetitle="Practitioners"></app-pagetitle>
+        <app-prd-grpdetailloader *ngIf="grpralistloading"></app-prd-grpdetailloader>
+        <div class="table-responsive mt-3"*ngIf="!grpralistloading" >
+            <table class="table data-list product-discount">
+                <tr>
+                    <th style="width:200px;padding-left: 25px;">
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">Name</label>
+                        </div>
+                    </th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th class="text-end">Status</th>                    
+                </tr>
+                <tr *ngFor="let pra of grpralist;let i = index">                    
+                    <td>
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">                                
+                                {{pra.name}}
+                            </label>
+                        </div>
+                    </td>
+                    <td>{{pra.email}}</td>
+                    <td>{{pra.contact}}</td>
+                    <td class="text-end">
+                        <span *ngIf="pra.status == true"  class="badge badge-active rounded-pill fw-normal text-success">Active</span>
+                        <span *ngIf="pra.status == false" class="badge badge-deactive rounded-pill fw-normal text-danger">Deactive</span>
+                    </td>                
+                </tr>   
+                <tr *ngIf="!grpralistloading && grpralist.length == 0">
+                    <td colspan="4" class="border-0">
+                        <div class="">
+                            <div class="justify-content-center align-items-center text-center" >
+                              <div>
+                                <i class="bi bi-exclamation-square text-danger" style="font-size: 50px;"></i>
+                                <h5 class="text-secondary fw-bold">Data not Found</h5>
+                              </div>  
+                            </div>
+                        </div> 
+                    </td>
+                </tr> 
+            </table>            
+        </div>        
+    </div>
+  </form>
+
+</main>

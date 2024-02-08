@@ -1,0 +1,124 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Product Sales Report"></app-pagetitle>  
+            <div class="d-md-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+                <div class="text-end flex-grow-1">
+                    <button class="btn btn-outline-success btn-sm py-2 mt-md-0 mt-3" style="width: max-content;" (click)="xls()" >
+                      <span *ngIf="!xlsloading">&nbsp;<img src="/assets/images/excel.png" width="18"> Download Product Sales Report</span>
+                      <img *ngIf="xlsloading" width="25" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+                    </button>
+                  </div>
+            </div>           
+        </div>
+    </div>
+    
+    <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>                                                       
+            <div class="col-md-1 mb-2">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div>
+    <div class="card p-3 main-processing-card">
+        <div class="row">
+            <div class="col-md-2-5">
+                <div class="rounded p-3 px-2 text-center processing-block1">
+                    <h6 class="fw-bold">Pending </h6>
+                    <span class="badge fw-normal rounded-pill">{{ttPending}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 px-2 text-center processing-block2">
+                    <h6 class="fw-bold" style="font-size: 15px;">Processing </h6>
+                    <span class="badge fw-normal rounded-pill">{{ttProcessing}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block3">
+                    <h6 class="fw-bold">Dispatched</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttDispatched}} </span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block4">
+                    <h6 class="fw-bold">Delivered</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttDelivered}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block5">
+                    <h6 class="fw-bold">Return</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttReturn}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block6">
+                    <h6 class="fw-bold">Cancel</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttCancel}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block7">
+                    <h6 class="fw-bold">Final Sale</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttFinalSale}}</span>
+                </div>                
+            </div>
+        </div>       
+    </div> 
+    <div class="row" *ngIf="prdsalesreplistloading">    
+        <app-prdsalreportloader></app-prdsalreportloader> 
+    </div>
+    <div class="row" *ngIf="!prdsalesreplistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">   
+                <!-- <div class="text-end mb-2">
+                    <div class="d-flex align-items-center gap-2 justify-content-end">
+                        <label for="">Display Record</label>
+                        <select class="form-select" style="width:auto;" (change)="setTotalRecord($event);" title="Display Record">
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                            <option value="All">All</option>
+                        </select> 
+                    </div>
+                </div>-->
+            <div class="table-responsive">
+                <table class="table data-list mb-0" id="excel-table">                  
+                      <tr>                           
+                        <th class="text-nowrap">Item Name</th>                
+                        <th>Variant Name</th>                        
+                        <th class="text-nowrap">Pending</th>
+                        <th class="text-nowrap">Processing</th>
+                        <th>Dispatched</th>
+                        <th>Delivered</th>
+                        <th class="text-nowrap">Return</th>
+                        <th class="text-nowrap">Cancel</th>
+                        <th class="text-nowrap">Final Sale</th>                        
+                      </tr>                                        
+                        <tr *ngFor="let item of prdsalesreplist | searchFilter:searchString1">
+                            <td>{{item.productName}}</td>
+                            <td>{{item.variantName}}</td>                            
+                            <td>{{item.pending}}</td>
+                            <td>{{item.processing}}</td>
+                            <td>{{item.dispatched}}</td>
+                            <td>{{item.delivered}}</td>
+                            <td>{{item.return}}</td>
+                            <td>{{item.cancel}}</td>
+                            <td>{{item.finalSale}}</td>
+                        </tr>                    
+                </table>                    
+        </div>          
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!prdsalesreplistloading && prdsalesreplist.length == 0"></app-datanotfound>
+</main>

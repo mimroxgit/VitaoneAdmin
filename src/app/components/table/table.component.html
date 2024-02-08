@@ -1,0 +1,55 @@
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+    <h5 class="mb-0 fw-bold">{{sectiontitle}}</h5>
+    <a href="#" class="btn btn-theme btn-sm rounded-pill text-white shadow" *ngIf="isCreatebuttonshow">
+        <i class="bi bi-plus" style="font-size:18px"></i>
+    </a>
+</div>
+
+<div class="card p-3" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"(scrolled)="scroll()">    
+    <div class="table-responsive">
+        <table class="table data-list mb-0">
+            <tr>
+                <th *ngFor="let head of displayhead">{{head}}</th> 
+                <th *ngIf="Isshowdefault">Default</th>               
+                <th>Status</th>
+                <th *ngIf="isaction" class="text-end" style="margin-left: 10px;">Action</th>
+            </tr>
+            <tr *ngFor="let item of tableData | searchFilter:searchString">
+                <td *ngFor="let head of tableList">                    
+                    <div *ngIf="head==image"> <img width="50" height="50" src="{{ImagePath}}/{{item[head]}}"></div>
+                    <div *ngIf="head==object">  {{item[object][objectfield]}}</div>
+                    <div *ngIf="head!=image&&head!=object">{{item[head]}}</div>                   
+                </td>                               
+                <td *ngIf="Isshowdefault">{{item[defaultdisplayname].toString()=="true"?"Yes":"No"}}</td>
+                <td *ngIf="item[statusdisplayname] == true"><span class="badge badge-active rounded-pill fw-normal">Active</span></td>
+                <td *ngIf="item[statusdisplayname] == false"><span class="badge badge-deactive rounded-pill fw-normal">Deactive</span></td>
+                <td class="text-end">
+                    <div class="d-flex gap-1 justify-content-end">
+                    <a *ngIf="isedit" (click)="edit(item)" class="btn border btn-sm text-theme2 shadow-sm py-1 me-1"><i class="bi bi-pencil"></i></a> 
+                    <a *ngIf="isdetail" (click)="detail(item)" class="btn border btn-sm text-primary shadow-sm py-1 me-1"><i class="bi bi-eye"></i></a> 
+                    <a *ngIf="isdelete" href="#DeleteModal" (click)="setModalpopup(item)"  data-bs-toggle="modal" class="btn btn-white btn-sm text-danger border py-1"><i class="bi bi-trash"></i></a>
+                </div>
+                </td>
+            </tr>
+ 
+           
+        </table>
+        <div class="modal fade" tabindex="-1" id="DeleteModal">
+            <div class="modal-dialog modal-sm modal-dialog-centered">
+              <div class="modal-content">
+                <div class="modal-header border-0">         
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="/assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-2" width="70">
+                    <b>Delete Record of <b class="text-theme">{{Item?Item[Modaldisplayname]:""}}</b></b>
+                    <p class="small text-secondary">Are you sure you want to delete this record ?</p>
+        
+                    <button (click)="delete(Item)"  data-bs-dismiss="modal" class="btn btn-danger">OK</button>
+                </div>       
+              </div>
+            </div>
+          </div>
+    </div>
+</div>

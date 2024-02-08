@@ -1,0 +1,127 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Orders"></app-pagetitle>  
+            <div class="">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+            </div>
+        </div>
+    </div> 
+    <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            
+            <div class="col-md-3 mb-2">
+                <label class="form-label mb-1">Practitioner</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner" filedName="name" fieldId="id" (selectedvalue)=onPrac($event)  [options]="pracatoptions" [filteredOptions]="pracatfilteredOptions" ></app-searchdropdownconcomponent>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label mb-1">Patient</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Patient" filedName="name" fieldId="id" (selectedvalue)=onPat($event)  [options]="patientoptions" [filteredOptions]="patientfilteredOptions" ></app-searchdropdownconcomponent>
+            </div> 
+            <div class="col-md-2">
+                <label class="form-label mb-1">Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=ordstatusDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{status.Name}}" *ngFor="let status of orderStatusDD" >{{status.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Payment Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=paymentDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{paymentstatus.Name}}" *ngFor="let paymentstatus of paymentStatusDD" >{{paymentstatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Payment Mode</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=paymodeDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{paymodestatus.Name}}" *ngFor="let paymodestatus of paymentModeDD" >{{paymodestatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-3">
+                <label class="form-label mb-1">Payment Gateway Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=rpStatusDD1($event);>
+                    <option value="All">All</option>
+                        <option value="{{rpStatus.Name}}" *ngFor="let rpStatus of rpStatusDD" >{{rpStatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Order By</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=ordBydd($event);>
+                    <option value="All">All</option>
+                        <option value="{{ordby.Name}}" *ngFor="let ordby of orderByDD" >{{ordby.Name}}</option>         
+                    </select> 
+            </div>
+                       
+            <div class="col-md-1">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div>
+    <div class="row" *ngIf="ordlistloading">    
+        <app-orderlistloader></app-orderlistloader> 
+    </div>
+    <div class="row" *ngIf="!ordlistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">            
+            <div class="table-responsive">
+                <table class="table data-list mb-0">                  
+                      <tr>   
+                        <th>Date</th>                        
+                        <th class="text-nowrap">Order Id</th>                
+                        <th>Patient</th>
+                        <th>Contact</th>
+                        <th>Practitioners</th>
+                        <th class="text-nowrap">Total Price</th>
+                        <th>Status</th>   
+                        <th class="text-nowrap">Payment Status</th> 
+                        <th class="text-nowrap">Payment Gateway Status</th> 
+                        <th class="text-nowrap">Payment Mode</th>     
+                        <th class="text-nowrap">Order By</th>   
+                        <th class="text-nowrap">Dispatch Date</th>                    
+                        <th class="text-end">Action</th>
+                      </tr>
+                    
+                    
+                        <tr *ngFor="let item of orderlist | searchFilter:searchString | paginate: { itemsPerPage: 10, currentPage: p }">
+                            <td class="text-nowrap">{{item.ormDate}}</td>
+                            <td><a routerLink="/{{orderdetailsurl}}/{{item.id}}">{{item.ormNo}}</a></td>
+                            <td>
+                                <div style="width: 200px;">
+                                    {{item.patientName}}
+                                </div>
+                            </td>
+                            <td>{{item.contactNo}}</td>
+                            <td>
+                                <div style="width: 150px;">
+                                    {{item.practitionerName}}
+                                </div>
+                            </td>
+                            <td>{{item.ormPrice-item.discountAmount-item.additionalDiscountAmount}}</td>
+                            <td><span class="badge {{item.ormStatus | trim }} rounded-pill fw-normal py-1">{{item.ormStatus}}</span></td>
+                            <td>{{item.ormPaymentStatus}}</td>
+                            <td>{{item.pgStatus}}</td>
+                            <td>{{item.ormPaymentMethod}}</td>
+                            <td>{{item.orderBy}}</td>
+                            <td *ngIf="item.ormStatus=='Dispatch'">{{item.dispatchDate}}</td>
+                            <td *ngIf="item.ormStatus!='Dispatch'"></td>
+                            <td class="text-end"><a routerLink="/{{orderdetailsurl}}/{{item.id}}" class="btn bg-primary text-white btn-sm rounded py-1"><i class="bi bi-eye"></i></a></td>
+                        </tr>
+                    
+                </table>         
+        </div>  
+        <div style="padding:15px;">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>  
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!ordlistloading && orderlist.length == 0"></app-datanotfound>
+</main>

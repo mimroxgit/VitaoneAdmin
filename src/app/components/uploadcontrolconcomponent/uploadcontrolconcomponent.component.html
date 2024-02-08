@@ -1,0 +1,34 @@
+<div class="mb-3">
+    <div class="d-flex">
+        <div class="dropZoneContainer flex-grow-1 me-2" style=" position: relative; ">
+            <input type="{{type}}" multiple (click)="clear()" class="form-control {{class}}" placeholder="{{placeholder}}" id="drop_zone" accept=".jpg,.png,.gif"  (change)="selectFile($event)" [(ngModel)]="inputModel">
+            <div class="dropZoneOverlay text-black w-100 d-flex justify-content-center align-items-center {{dropzonnew}}">
+                <img src="/assets/images/icon/upload.png" alt="Add Logo" class="img-fluid {{uploadicon}}">
+            </div>
+        </div>       
+        <div *ngIf="imgDiv && imgshow" class="selected-img position-relative {{selectedimg}}">      
+            <img src="{{selimg}}" width="100" height="100" style="object-fit: contain;">  
+            <div class="over-big-img" *ngIf="imgoverlay" >
+                <a href="#bigimgd" data-bs-toggle="modal">View</a>
+            </div>             
+        </div>
+        
+        <div class="modal fade big-img" id="bigimgd">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header border-0">                                           
+                        <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="card-body pt-3 px-1">                                           
+                        <img src="{{selimg}}" class="img-fluid">                                           
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="d-flex justify-content-between">
+        <span class="text-primary small">{{recommendedsize}}</span>
+        <span class="small text-danger">{{uploaderrmsg}}</span>
+    </div>
+</div>

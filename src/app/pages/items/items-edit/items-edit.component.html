@@ -1,0 +1,728 @@
+<main class="main" id="main">
+    <form #form="ngForm">
+        <div class="card p-3">
+            <app-pagetitle pagetitle="Edit Item"></app-pagetitle>
+            <div class="row">
+                <div class="col-md-3">
+                    <app-inputcontrol errmsg="{{nameMessage}}" [(inputModel)]="itmName" lblname="Name" type="text"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+                <!-- <div class="col-md-3">                                
+                    <app-inputdropdowncomponent setValue="{{unitName}}" DDerrmsg="{{unitMessage}}" [(inputModel)]="itmQty" type="number" lblname="Quantity"  [Unitlist]="Iunitlist" filedName="name" fieldId="id" (idChange)=onchangeunit($event) selectstyle="textbox"></app-inputdropdowncomponent>                                                             
+                </div> -->
+                <div class="col-md-2">
+                    <app-inputcontrol [(inputModel)]="itmHsnCode" lblname="HSN Code" type="text" [star]="false"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+                <div class="col-md-2">
+                    <app-inputcontrol [(inputModel)]="itmSacCode" lblname="SAC Code" type="text" [star]="false"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+                <div class="col-md-2 mt-md-4">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" (click)="isBestseller($event)"
+                            (checked)="isBestseller($event)" [checked]="itmIsBestSeller" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Best Seller
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="d-flex mt-md-4">
+                        <label class="mb-3 me-2">GST Detail</label>
+                        <app-toggleswitchcontrol (change)="checkbox($event);"
+                            [(inputModel)]="isoffer"></app-toggleswitchcontrol>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <app-inputcontrol  [(inputModel)]="itmSlug" lblname="Item Url" type="text"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+
+                <div class="col-md-6" *ngIf="isoffer">
+                    <div class="d-flex gap-2">
+                        <div style="flex-grow: 1;">
+                            <app-inputcontrol errmsg="{{igstMessage}}" [(inputModel)]="itmIGst" lblname="IGST"
+                                type="text" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <app-inputcontrol errmsg="{{cgstMessage}}" [(inputModel)]="itmCGst" lblname="CGST"
+                                type="text" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                        </div>
+                        <div style="flex-grow: 1;">
+                            <app-inputcontrol errmsg="{{sgstMessage}}" [(inputModel)]="itmSGst" lblname="SGST"
+                                type="text" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--------------radio button Start ------------------->
+        <div class="card p-3">
+            <div class="wrapper">
+                <input type="radio" (change)="selectedbtn($event)" value="Supplement" name="select" id="option-1" [checked]="itmType=='Supplement'">            
+                  <label for="option-1" class="option option-1">
+                    <div class="dot"></div>
+                     <span>Supplement</span>
+                     </label>
+    
+                     <input type="radio" (change)="selectedbtn($event)"  value="Elearning" name="select" id="option-2" [checked]="itmType=='Elearning'">
+                  <label for="option-2" class="option option-2">
+                    <div class="dot"></div>
+                     <span>E-learning</span>
+                  </label>
+               </div>
+            
+            <!-- <div class="row align-items-center">
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input id="Supplement" type="radio" [checked]="itmType=='Supplement'" class="form-check-input" (change)="selectedbtn($event)" value="Supplement" name="gender">
+                        <label class="form-check-label ms-1" for="Supplement">
+                            Supplement
+                        </label>
+                      </div>
+                </div>
+
+                <div class="col-md-2">
+                    <div class="form-check">
+                        <input id="Elearning" type="radio" [checked]="itmType=='Elearning'" class="form-check-input" (change)="selectedbtn($event)" value="Elearning" name="gender">
+                        <label class="form-check-label ms-1" for="Elearning">
+                            E-learning
+                        </label>
+                      </div>
+                </div>             
+            </div>            -->
+        </div>
+        <!--------------radio button End------------------->
+        <!-- Dose Loader start -->
+        <div class="card" *ngIf="loading">
+            <div class="card-header" style="height: 50px;">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'150px',
+                    height:'15px'
+                    }">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="card-body pb-0">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <!-- Does Loader end -->
+        <div class="card p-3" *ngIf="!loading">
+            <div>
+                <h6>Doses</h6>
+                <ul class="ks-cboxtags  mb-0">
+                    <li *ngFor="let item of dsmactlist ;let i = index">
+                        <input type="checkbox" id="{{item.name}}" (change)="onchangedsm(item.name)"
+                            [checked]="setDsmID(item.name)">
+                        <label for="{{item.name}}">{{item.name}}</label>
+                    </li>
+                </ul>
+                <span class="small text-danger">{{catdropdownMessage}}</span>
+            </div>
+        </div>
+        <!-- Categories Loader start -->
+        <div class="card" *ngIf="loading">
+            <div class="card-header" style="height: 50px;">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'150px',
+                    height:'15px'
+                    }">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="card-body pb-0">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                    }">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <!-- Categories Loader end -->
+        <div class="card p-3" *ngIf="!loading">
+            <div>
+                <h6>Categories <span class="text-danger">*</span></h6>
+                <ul class="ks-cboxtags  mb-0">
+                    <li *ngFor="let item of catactlist ;let i = index">
+                        <input type="checkbox" id="{{item.id}}" (change)="onchangecat(item.id)"
+                            [checked]="setCatID(item.id)">
+                        <label for="{{item.id}}">{{item.name}}</label>
+                    </li>
+                </ul>
+                <span class="small text-danger">{{catdropdownMessage}}</span>
+            </div>
+        </div>
+        <!--Sub Categories Loader start -->
+        <div class="card" *ngIf="loading">
+            <div class="card-header" style="height: 50px;">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'150px',
+                    height:'15px'
+                }">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="card-body pb-0">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <!-- Sub Categories Loader end -->
+        <div class="card p-3" *ngIf="!loading">
+            <h6>Sub Categories <span class="text-danger">*</span></h6>
+            <ul class="ks-cboxtags mb-0">
+                <li *ngFor="let item of subcatactlist ;let i = index"><input type="checkbox" id="{{item.id}}"
+                        (change)="onchangesubcat(item.id)" [checked]="setSubcatID(item.id)"><label
+                        for="{{item.id}}">{{item.name}}</label></li>
+            </ul>
+            <span class="small text-danger">{{subcatdropdownMessage}}</span>
+        </div>
+        <!-- Practitioner Categories Loader start -->
+        <div class="card" *ngIf="loading">
+            <div class="card-header" style="height: 50px;">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'150px',
+                    height:'15px'
+                }">
+                </ngx-skeleton-loader>
+            </div>
+            <div class="card-body pb-0">
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>&nbsp;
+                <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark" [theme]="{
+                    width:'100px',
+                    height:'25px',
+                    'border-radius':'50px'
+                }">
+                </ngx-skeleton-loader>
+            </div>
+        </div>
+        <!-- Practitioner Categories Loader end -->
+        <div class="card p-3" *ngIf="!loading">
+            <h6>Practitioner Categories <span class="text-danger">*</span></h6>
+            <ul class="ks-cboxtags mb-0">
+                <li *ngFor="let item of practitionercatlist ;let i = index">
+                    <input type="checkbox" id="{{item.id}}" (change)="onchangeparcat(item.id)"
+                        [checked]="setPracatID(item.id)">
+                    <label for="{{item.id}}">{{item.name}} </label>
+                </li>
+            </ul>
+        </div>
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-md-12">
+                    <app-inputcontrol [(inputModel)]="itmFeatures" lblname="Features (write title with , )" type="text"
+                        [star]="false" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+                <div class="col-md-12">
+                    <app-inputcontrol [(inputModel)]="itmVideo" lblname="Video (Url)" type="text" [star]="false"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+
+                <div class="col-md-6">
+                    <app-labelcontrolconcomponent label="Documentation (Pdf File)" [star]="false"
+                        *ngIf="Isshowlabeluploadfile"></app-labelcontrolconcomponent>
+                    <app-uploadcontrolconcomponent selimg="{{itmimageUrl}}" type="file" selectedFiles="pimImages"
+                        (selectedimage)=selectedDocumentation($event) class="FileUpload mb-1" uploadicon="uploadicon"
+                        *ngIf="Isshowfileupload"></app-uploadcontrolconcomponent>
+                </div>
+                <div class="col-md-6">
+                    <app-labelcontrolconcomponent label="Sample Report (Pdf File)" [star]="false"
+                        *ngIf="Isshowlabeluploadfile"></app-labelcontrolconcomponent>
+                    <app-uploadcontrolconcomponent selimg="{{itmimageUrl}}" type="file" selectedFiles="pimImages"
+                        (selectedimage)=selectedReport($event) class="FileUpload mb-1" uploadicon="uploadicon"
+                        *ngIf="Isshowfileupload"></app-uploadcontrolconcomponent>
+                </div>
+                
+                <div class="col-md-12">
+                    <app-labelcontrolconcomponent label="Upload Photo" [star]="true"
+                        *ngIf="Isshowlabeluploadfile"></app-labelcontrolconcomponent>
+                    <app-uploadcontrolconcomponent [imgshow]="true" selimg="{{itmimageUrl}}"
+                        uploaderrmsg="{{itemImageMessage}}" type="file" selectedFiles="pimImages"
+                        (selectedimage)=selectedfile($event) class="FileUpload mb-1 h-250" dropzonnew="h-250" selectedimg="prd-img" uploadicon="uploadicon"
+                        recommendedsize="Recommended size 340 * 575"
+                        *ngIf="Isshowfileupload"></app-uploadcontrolconcomponent>
+                </div>
+
+                <div class="col-md-12 mb-3">
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <div [ngClass]="img!=''?'multile-image':''"
+                        *ngFor="let img of itmImgGallery;let i=index">
+                        <div class="position-relative">
+                            <div *ngIf="img !=''">
+                                <button type="button" class="btn remove-img" (click)="deleteImage(img)"><i
+                                        class="bi bi-x-circle-fill"></i>
+                                </button>
+                                <img src="{{ImagePath}}/{{img}}" class="img-fluid" style="object-fit: contain;">
+                                
+                                <div class="over-big-img">
+                                    <a href="#bigimg{{i}}" data-bs-toggle="modal">View</a>
+                                </div>
+                            </div>
+                            <div class="modal fade big-img" id="bigimg{{i}}">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header border-0">
+                                            <button class="btn-close border rounded-circle"
+                                                data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="card-body pt-3 px-1">
+                                            <img src="{{ImagePath}}/{{img}}" class="img-fluid">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- <div class="modal" id="bigimg">
+                                <img src="{{ImagePath}}/{{img}}" class="img-fluid">
+                            </div> -->
+                        </div>
+                        <button (click)="defaultImageSet(img)" class="btn btn-sm btn-white default-img w-100 default-img" [disabled]="defaultImage==img ? 'disabled':''"> {{defaultImage==img?"Default Image":"Set Default"}}</button>
+                    </div>
+                        
+                    </div>
+
+                </div>
+
+                
+                
+                <div class="col-md-12">
+                    <app-labelcontrolconcomponent label="Short Description"></app-labelcontrolconcomponent>
+                    <app-textareacontrolcontrolcomponent areaerrmsg="{{shortdesMessage}}" [(inputModel)]="itmShortDesc"
+                        class="textarea metaDescText"></app-textareacontrolcontrolcomponent>
+                </div>
+                <div class="col-md-12">
+                    <app-labelcontrolconcomponent label="Long Description" [star]="true"
+                        *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+                    <app-htmleditorcontrolcomponent htmlerrmsg="{{longDescMessage}}" [(inputModel)]="itmLongDesc"
+                        *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+                </div>
+                <app-toggleswitchcontrol [(inputModel)]="itmIsActive"></app-toggleswitchcontrol>
+
+                <div class="col-md-12">
+                    <span class="text-danger">{{mes}}</span>
+                </div>
+                <img *ngIf="loading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto"
+                    class="loader-img" src="/assets/images/loader.gif" />
+            </div>
+        </div>
+
+        <div class="card p-3">
+            <!-- Item Price Variant Table Start-->
+            <div class="d-flex justify-content-between align-items-center">
+                <app-pagetitle pagetitle="Variants"></app-pagetitle>
+                <app-buttoncontrolconcomponent data-bs-toggle="modal" (click)="openModalDialog()"
+                    btnstyle="btn-theme border-0 px-3 text-white" btnname="Add Variant"></app-buttoncontrolconcomponent>
+            </div>
+
+            <div class="col-md-12 mt-3" *ngIf="itemOthervariant.length >= 1">
+                <div class="bg-theme">
+                    <div class="table-responsive">
+                        <table class="table data-list mb-0">
+                            <tr>
+                                <th>Name</th>
+                                <th>Qty</th>
+                                <th>Unit</th>
+                                <th *ngIf="itmType=='Elearning'">Duration</th>
+                                <th>Cost Price</th>
+                                <th>MRP</th>
+                                <th>Default</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                            <tr *ngFor="let v of itemOthervariant ;let vp = index">
+                                <td>{{v[0]}}</td>
+                                <td>{{v[1]}}</td>
+                                <td>{{v[6]}}</td>
+                                <td *ngIf="itmType=='Elearning'">{{v[9]}} {{v[10]}}</td>
+                                <td>{{v[3]}}</td>
+                                <td>{{v[4]}}</td>
+                                <td>{{v[5].toString()=="true"?"Yes":"No"}}</td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end">
+                                        <a class="btn btn-outline-success btn-sm py-1 me-1" (click)="groupVariant(vp)"
+                                            data-bs-toggle="modal">Group Discount</a>
+                                        <a class="btn border btn-sm text-theme2 shadow-sm py-1 me-1"
+                                            (click)="editVariant(vp)" data-bs-toggle="modal"><i
+                                                class="bi bi-pencil"></i></a>
+                                        <a href="#DeleteModal" data-bs-toggle="modal" (click)="editVariant1(vp)"
+                                            class="btn btn-white btn-sm text-danger border py-1"><i
+                                                class="bi bi-trash"></i></a>
+                                    </div>
+                                </td>
+                                <div class="modal fade" tabindex="-1" id="DeleteModal">
+                                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img src="/assets/images/icon/trash.png"
+                                                    class="img-fluid d-block mx-auto mb-2" width="70">
+                                                <b>Delete Record of <b class="text-theme">{{deleteTitlev}}</b></b>
+                                                <p class="small text-secondary">Are you sure you want to delete this
+                                                    record ?</p>
+
+                                                <button (click)="deleteVariant()" data-bs-dismiss="modal"
+                                                    class="btn btn-danger">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Item Price Variant Table End-->
+        </div>
+
+        <div class="card p-3">
+            <!-- Item Description Table Start-->
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <app-pagetitle pagetitle="Description"></app-pagetitle>
+                <app-buttoncontrolconcomponent data-bs-target="#addDec" data-bs-toggle="modal"
+                    btnstyle="btn-theme border-0 px-3 text-white"
+                    btnname="Add Description"></app-buttoncontrolconcomponent>
+            </div>
+
+            <div class="col-md-12 mt-3" *ngIf="itemOtherDesc.length >= 1">
+                <div class="bg-theme">
+                    <div class="table-responsive">
+                        <table class="table data-list mb-0">
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th class="text-end">Action</th>
+                            </tr>
+                            <tr *ngFor="let dec of itemOtherDesc ;let d = index">
+                                <td style="width:150px;">{{dec[0]}}</td>
+                                <td>
+                                    <p class="item-desc-table mb-0" [innerHTML]="dec[1]"></p>
+                                </td>
+                                <td class="text-end">
+                                    <div class="d-flex justify-content-end">
+                                        <a class="btn border btn-sm text-theme2 shadow-sm py-1 me-1"
+                                            (click)="edithtml(d)" data-bs-target="#addDec" data-bs-toggle="modal"><i
+                                                class="bi bi-pencil"></i></a>
+                                        <a href="#DeleteModaldec" data-bs-toggle="modal" (click)="edithtml1(d)"
+                                            class="btn btn-white btn-sm text-danger border py-1"><i
+                                                class="bi bi-trash"></i></a>
+                                    </div>
+                                </td>
+                                <div class="modal fade" tabindex="-1" id="DeleteModaldec">
+                                    <div class="modal-dialog modal-sm modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header border-0">
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <img src="/assets/images/icon/trash.png"
+                                                    class="img-fluid d-block mx-auto mb-2" width="70">
+                                                <b>Delete Record of <b class="text-theme">{{deleteTitle}}</b></b>
+                                                <p class="small text-secondary">Are you sure you want to delete this
+                                                    record ?</p>
+
+                                                <button (click)="deletehtml()" data-bs-dismiss="modal"
+                                                    class="btn btn-danger">OK</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Item Description Table End-->
+        </div>
+        
+        <!--------------Start  Seo ------------------->
+        <div class="card p-3">
+            <app-pagetitle pagetitle="SEO Information"></app-pagetitle>
+            <br>
+            <div class="row">
+                <div class="col-md-6">
+                    <app-inputcontrol [star]="false"  errmsg="{{itmSeoTitleMessage}}" [(inputModel)]="itmSeoTitle" lblname="Meta Title" type="text"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div>
+                <div class="col-md-6">
+                    <app-inputcontrol [star]="false" errmsg="{{itmSeoKeywordsMessage}}" [(inputModel)]="itmSeoKeywords" lblname="Meta KeyWord" type="text"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                </div> 
+                <div class="col-md-12">
+                    <app-labelcontrolconcomponent label="Meta Description"></app-labelcontrolconcomponent>
+                    <app-textareacontrolcontrolcomponent areaerrmsg="{{itmSeoDescMessage}}" [(inputModel)]="itmSeoDesc"
+                        class="textarea metaDescText"></app-textareacontrolcontrolcomponent>
+                </div>                                              
+            </div>
+        </div>
+        <!--------------Start  Seo ------------------->
+
+        <div class="col-md-12 mt-2 text-end">
+           
+            <app-buttoncontrolconcomponent routerLink="/{{itemslistUrl}}"
+                btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark" btnname="Cancel">
+                
+            </app-buttoncontrolconcomponent>
+            <button class="btn bg-theme2 mt-3 border-0 px-4  text-white w-auto" [disabled]="loading" data-bs-target="#alert" data-bs-toggle="modal" >
+                <img *ngIf="loading" style="width:20px;height:20px;object-fit: contain;" class=""
+                     src="/assets/images/loader.gif" /> Save</button>
+            <!-- <app-buttoncontrolconcomponent  [btndisable]="loading" data-bs-target="#alert" data-bs-toggle="modal"
+                btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save">
+                
+            </app-buttoncontrolconcomponent> -->
+        </div>
+
+    </form>
+    <!-- Item Update model pop Start-->
+    <div class="modal fade" id="alert">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="mb-0">Update Detail</h6>
+                    <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="card-body pt-3 px-1">
+                    <p class="text-center small">Are you sure to update this detail?</p>
+                    <app-buttoncontrolconcomponent
+                        class="btn btn-link btn-sm float-end text-decoration-none text-dark p-0" data-bs-dismiss="modal"
+                        btnname="No"></app-buttoncontrolconcomponent>
+                    <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"
+                        data-bs-dismiss="modal" class="btn btn-link btn-sm float-end text-decoration-none p-0"
+                        btnname="Yes"></app-buttoncontrolconcomponent>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Update model pop End-->
+    <!-- Item Group Variant model pop Start-->
+    <div class="backdrop" [ngStyle]="{'display':dis}"></div>
+    <div class="modal price" tabindex="-1" role="dialog" [ngStyle]="{'display':dis}">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="mb-0 fw-bold">Practitioner Group Discount</h6>
+                    <button class="btn-close border bg-light rounded-circle" data-bs-dismiss="modal"
+                        (click)="closeDialog()"></button>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-{{infoClass}} alert-dismissible" *ngIf="isDiscountResponse">
+                        <span>{{discountResponse}}</span>
+                        <button type="button" class="btn-close" (click)="discountAlertbox()"
+                            aria-label="Close"></button>
+                    </div>
+
+                    <div class="table-responsive mt-3">
+                        <table class="table data-list product-discount">
+                            <tr>
+                                <th>Practitioner<br> Group</th>
+                                <th>Variant</th>
+                                <th style="white-space: nowrap;">Cost Price</th>
+                                <th>MRP</th>
+                                <th style="width: 140px;white-space: nowrap;">Practitioner<br> Margin (in %)</th>
+                                <th style="width: 200px;white-space: nowrap;">Practitioner Margin<br> (in Amount)</th>
+                                <th>Practitioner<br> Price</th>
+                                <th>Action</th>
+                            </tr>
+                            <tbody *ngIf="!discloading">
+                                <tr *ngFor="let itm of groupVariantlist;let i = index">
+                                    <td>{{itm.groupName}}</td>
+                                    <td>{{itm.itmVName}}</td>
+                                    <td><input type="hidden" ngModel="itmCostPrice[itm.costPrice]"
+                                            value="itmCostPrice[itm.costPrice]">Rs {{itm.itmCostPrice}}</td>
+                                    <td style="white-space: nowrap;">Rs {{itm.itmMrp}}</td>
+                                    <td>
+                                        <!-- <span style="display:none;"> {{dispar[i]=itm.discount}}{{disparamount[i]=itm.discountAmount}}{{disparprice[i]=itm.price}}</span>-->
+                                        <app-inputcontrol newlbl="d-none" (change)="setDis1($event,i,itm.itmMrp);"
+                                            [(inputModel)]="dispar[i]" [star]="false" type="text" inptclass="m-0"
+                                            inputstyle="textbox"></app-inputcontrol>
+                                    </td>
+                                    <td>
+                                        <app-inputcontrol newlbl="d-none" (change)="setDis2($event,i,itm.itmMrp);"
+                                            [(inputModel)]="disparamount[i]" [star]="false" type="text" inptclass="m-0"
+                                            inputstyle="textbox"></app-inputcontrol>
+                                    </td>
+                                    <td>
+                                        <div style="width:120px">
+                                            <app-inputcontrol newlbl="d-none" [(inputModel)]="disparprice[i]"
+                                                value="{{itm.mrpPrice-(itm.mrpPrice*dispar[i]/100)}}" [star]="false"
+                                                type="text" inptclass="m-0" inputstyle="textbox"></app-inputcontrol>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <button (click)="saveGroupDiscount(i,itm)"
+                                            class="btn bg-theme2 btn-sm float-end text-decoration-none text-white"
+                                            >Save</button>
+                                    </td>
+
+                                </tr>
+                                <!-- <span *ngIf="groupVariantlist.length == 0" >Data not Found</span>  -->
+                            </tbody>
+
+                            <img *ngIf="discloading" style="width:50px;height:50px;object-fit: contain;"
+                                class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Group Variant  model pop End-->
+    <!-- Item Price Variant Edit model pop Start-->
+    <div class="backdrop" [ngStyle]="{'display':display}"></div>
+    <div class="modal price" tabindex="-1" role="dialog" [ngStyle]="{'display':display}">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="mb-0 fw-bold">Item Variant</h6>
+                    <button class="btn-close border bg-light rounded-circle" data-bs-dismiss="modal"
+                        (click)="closeModalDialog()"></button>
+                </div>
+                <div class="card-body">
+                    <app-inputcontrol errmsg="{{vnameMessage}}" [star]="true" [(inputModel)]="itmvName" lblname="Name"
+                        type="text" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+
+                    <!-- <app-inputdropdowncomponent *ngIf="!isCreate" DDerrmsg="{{unitMessage}}" [(inputModel)]="itmVQty" type="number" lblname="Quantity"  [Unitlist]="Iunitlist" filedName="name" fieldId="id" (idChange)=onchangeVunit($event) selectstyle="textbox"></app-inputdropdowncomponent>                                                              -->
+                    <div class=" position-relative">
+                        <label class="form-label mb-1">Quantity <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control textbox" [(ngModel)]="itmVQty">
+                        <div class="dropdown dropdown-menu-end">
+                            <button class="btn dropdown-toggle input-dropdown" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{unitName}}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" (click)="onchangeVunit(item.id,item.name)"
+                                        *ngFor="let item of Iunitlist">{{item.name}}</a></li>
+                            </ul>
+                        </div>
+                        <span class="small text-danger">{{unitMessage}}</span>
+                    </div>
+                    <div class=" position-relative" *ngIf="type != false">
+                        <label class="form-label mb-1">Duration <span class="text-danger">*</span></label>
+                        <input type="number" class="form-control textbox" [(ngModel)]="itmVDuration">
+                        <div class="dropdown dropdown-menu-end">
+                            <button class="btn dropdown-toggle input-dropdown" type="button" id="dropdownMenuButton1"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                {{itmVDurationType}}
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" (click)="onchangeDur(item.Name)"
+                                        *ngFor="let item of durtlist">{{item.Name}}</a></li>
+                            </ul>
+                        </div>
+                        <span class="small text-danger">{{durationMessage}}</span>
+                    </div>
+                    <app-inputcontrol errmsg="{{vcostpriceMessage}}" [(inputModel)]="itmVCostPrice" lblname="Cost Price"
+                        type="number" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                    <app-inputcontrol errmsg="{{vmrpMessage}}" [(inputModel)]="itmVMRP" lblname="MRP" type="number"
+                        inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+
+                    <div class="d-flex gap-2 mb-2">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" (change)="isDefault($event)"
+                                id="flexSwitchCheckDefaults" [checked]="itmisDefault" [disabled]="itmisDefault==true">
+                            <label class="form-check-label" for="flexSwitchCheckDefaults">Default</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" (change)="isOffer($event)"
+                                id="flexSwitchCheckisoffer" [checked]="itmIsOffer == true">
+                            <label class="form-check-label" for="flexSwitchCheckisoffer">Offer</label>
+                        </div>
+                    </div>
+
+                    <app-inputcontrol *ngIf="itmIsOffer == true" errmsg="{{vOfferMessage}}"
+                        [(inputModel)]="itmOfferPrice" lblname="Offer Price" type="number" inptclass="mb-3"
+                        inputstyle="textbox"></app-inputcontrol>
+                    <app-buttoncontrolconcomponent (click)="addVariant()"
+                        btnstyle="bg-theme2 mt-3 border-0 px-5 text-white w-100"
+                        btnname="Save"></app-buttoncontrolconcomponent>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Price Variant Edit model pop End-->
+
+    <!-- Item Description Edit model pop Start-->
+    <div class="modal fade" id="addDec">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="mb-0 fw-bold">Item Description</h6>
+                    <button class="btn-close border bg-light rounded-circle" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="card-body">
+                    <app-inputcontrol errmsg="{{nameMessage}}" [star]="false" [(inputModel)]="itemDescTitle"
+                        lblname="Name" type="text" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+                    <app-labelcontrolconcomponent label="Description" [star]="false"
+                        *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+                    <app-htmleditorcontrolcomponent [(inputModel)]="itemDescDetail"
+                        *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+                    <app-buttoncontrolconcomponent (click)="addhtml()" data-bs-dismiss="modal"
+                        btnstyle="bg-theme2 mt-3 border-0 px-5 text-white"
+                        btnname="Save"></app-buttoncontrolconcomponent>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Item Description Edit model pop End-->
+</main>

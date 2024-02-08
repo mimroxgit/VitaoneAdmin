@@ -1,0 +1,51 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="Lesson"></app-pagetitle>        
+        <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">
+          <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/> 
+          <app-createicon  routerLink="{{lessoncreateurl}}"></app-createicon>
+        </div>
+      </div>
+    </div>    
+    <div class="card p-3" *ngIf="!lessonlistloading" >    
+      <div class="table-responsive">
+          <table class="table data-list mb-0">
+              <tr>                  
+                  <th>Title</th> 
+                  <th>Status</th>                                    
+                  <th class="text-end">Action</th>
+              </tr>
+              <tr *ngFor="let item of lessonlist | searchFilter:searchString1">                                                 
+                  <td>{{item.lsmTitle}}</td>
+                  <td *ngIf="item.lsmActive == true"><span class="badge badge-active rounded-pill fw-normal">Active</span></td>
+                  <td *ngIf="item.lsmActive == false"><span class="badge badge-deactive rounded-pill fw-normal">Deactive</span></td>                                   
+                  <td class="text-end">
+                      <div class="d-flex justify-content-end gap-1">                          
+                          <a (click)="edit(item)" class="btn border btn-sm text-theme2 shadow-sm py-1 me-1"><i class="bi bi-pencil"></i></a>                                    
+                          <a  href="#DeleteModal" (click)="setModalpopup(item)"  data-bs-toggle="modal" class="btn btn-white btn-sm text-danger border py-1"><i class="bi bi-trash"></i></a>                   
+                      </div>
+                  </td>
+              </tr>                
+          </table>
+          <div class="modal fade" tabindex="-1" id="DeleteModal">
+              <div class="modal-dialog modal-sm modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header border-0">         
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body text-center">
+                      <img src="/assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-2" width="70">
+                      <b>Delete Record of <b class="text-theme">{{Item?Item.mdlTitle:""}}</b></b>
+                      <p class="small text-secondary">Are you sure you want to delete this record ?</p>
+          
+                      <button (click)="deletecnt(Item)"  data-bs-dismiss="modal" class="btn btn-danger">OK</button>
+                  </div>       
+                </div>
+              </div>
+            </div>
+      </div>
+  </div>  
+  <app-moduleloader *ngIf="lessonlistloading"></app-moduleloader>    
+  <app-datanotfound *ngIf="!lessonlistloading && lessonlist.length == 0"></app-datanotfound>
+</main>

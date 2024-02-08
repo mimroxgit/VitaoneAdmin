@@ -1,0 +1,9 @@
+<div class="mb-3" *ngIf="Isactive">
+    <label class="form-label mb-1">{{lblname}} <span class="text-danger" *ngIf="dstar">*</span></label>
+      <select class="form-select {{selectstyle}} " [(ngModel)]="catId" (ngModelChange)="onchange()" >
+        <option value="-" selected>Select {{dropdowntitle}}</option>
+        <option *ngIf="isdisplyAll == true" [selected]="'000000000000000000000000'==catId" value="000000000000000000000000" selected>All</option>
+        <option *ngFor="let item of categories" [selected]="item[fieldId]==catId" value="{{item[fieldId]}}">{{item[filedName]}}</option>   
+      </select>
+      <span class="small text-danger">{{DDerrmsg}}</span>
+</div>

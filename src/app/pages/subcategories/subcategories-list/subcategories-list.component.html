@@ -1,0 +1,20 @@
+<main class="main" id="main">
+  <div class="card p-3">
+    <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+      <app-pagetitle pagetitle="Sub Categories"></app-pagetitle>
+        <div class="d-md-flex align-items-center gap-2 mt-md-0 mt-2">
+          <app-searchdropdownconcomponent style="height: 40px;" dropdownTitile="Category" filedName="name" fieldId="id" (selectedvalue)=onchange($event)  [options]="options" [filteredOptions]="filteredOptions" ></app-searchdropdownconcomponent>
+          <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input my-md-0 my-2"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>
+          <div class="d-flex gap-2 align-items-center mt-md-0 mt-2">
+            <button name="search" (click)="onsearch()" class="btn btn-sm btn-secondary text-white px-3 my-md-0 my-2" style="padding: 8px;">
+              <i class="bi bi-search"></i>
+            </button>
+            <app-createicon  routerLink="{{subCatcreateurl}}"></app-createicon>
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-subcatloader *ngIf="subcategorielistloading"></app-subcatloader>
+    <app-table image="categoryImage" [searchString]="searchString1" *ngIf="!subcategorielistloading" [tableList]="tableTdlist" [tableData]="subcategorielist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2" (onscroll)="onScroll()"  (onedit)="editsubCat($event)" (ondelete)="deletesubCat($event)"></app-table>
+    <app-datanotfound *ngIf="!subcategorielistloading && subcategorielist.length == 0"></app-datanotfound>
+</main>

@@ -1,0 +1,33 @@
+.upload-icon{
+    height: 35px;
+}
+.h-25{
+    height: 40px !important;
+}
+
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: #ddd;
+}
+.form-select{
+    -height: 48px;
+}
+.loader-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.loader-img-login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);  
+  }
+
+.loader-img-login img{
+    width: 50px;
+}
+
+td,th{
+    vertical-align: middle;
+}

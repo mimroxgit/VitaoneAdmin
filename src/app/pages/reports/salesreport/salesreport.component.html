@@ -1,0 +1,212 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Sales Report"></app-pagetitle>  
+            <div class="d-md-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+                <div class="text-end flex-grow-1">
+                    <button class="btn btn-outline-success btn-sm py-2 mt-md-0 mt-3" style="width: max-content;" (click)="xls()" >
+                      <span *ngIf="!xlsloading">&nbsp;<img src="/assets/images/excel.png" width="18"> Download Sales Report</span>
+                      <img *ngIf="xlsloading" width="25" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+                    </button>
+                  </div>                                   
+            </div>           
+        </div>
+    </div> 
+    <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            
+            <div class="col-md-3 mb-2">
+                <label class="form-label mb-1">Practitioner</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner" filedName="name" fieldId="id" (selectedvalue)=onPrac($event)  [options]="pracatoptions" [filteredOptions]="pracatfilteredOptions" ></app-searchdropdownconcomponent>
+            </div>
+            <div class="col-md-3 mb-2">
+                <label class="form-label mb-1">Patient</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Patient" filedName="name" fieldId="id" (selectedvalue)=onPat($event)  [options]="patientoptions" [filteredOptions]="patientfilteredOptions" ></app-searchdropdownconcomponent>
+            </div> 
+            <div class="col-md-2">
+                <label class="form-label mb-1">Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=ordstatusDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{status.Name}}" *ngFor="let status of orderStatusDD" >{{status.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Payment Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=paymentDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{paymentstatus.Name}}" *ngFor="let paymentstatus of paymentStatusDD" >{{paymentstatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Payment Mode</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=paymodeDD($event);>
+                    <option value="All">All</option>
+                        <option value="{{paymodestatus.Name}}" *ngFor="let paymodestatus of paymentModeDD" >{{paymodestatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-3">
+                <label class="form-label mb-1">Payment Gateway Status</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=rpStatusDD1($event);>
+                    <option value="All">All</option>
+                        <option value="{{rpStatus.Name}}" *ngFor="let rpStatus of rpStatusDD" >{{rpStatus.Name}}</option>         
+                    </select> 
+            </div>
+            <div class="col-md-2">
+                <label class="form-label mb-1">Order By</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=ordBydd($event);>
+                    <option value="All">All</option>
+                        <option value="{{ordby.Name}}" *ngFor="let ordby of orderByDD" >{{ordby.Name}}</option>         
+                    </select> 
+            </div>
+                       
+            <div class="col-md-1 mt-md-0 mt-2">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div>
+    <div class="card p-3 main-processing-card">
+        <div class="row">
+            <div class="col-md-2-5">
+                <div class="rounded p-3 px-2 text-center processing-block1">
+                    <h6 class="fw-bold">Price </h6>
+                    <span class="badge fw-normal rounded-pill">{{ttTotalPrice}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block2">
+                    <h6 class="fw-bold">Actual Price</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttActualPrice}} </span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block5">
+                    <h6 class="fw-bold">Orders</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttOrders}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 px-2 text-center processing-block1">
+                    <h6 class="fw-bold">Pending </h6>
+                    <span class="badge fw-normal rounded-pill">{{ttPending}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block3">
+                    <h6 class="fw-bold">Dispatched</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttDispatch}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block6">
+                    <h6 class="fw-bold">Cancel</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttCancelled}}</span>
+                </div>                
+            </div>
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block4">
+                    <h6 class="fw-bold">Delivered</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttDelivered}}</span>
+                </div>                
+            </div>
+            
+            <div class="col-md-2-5">
+                <div class="rounded p-3 text-center processing-block7">
+                    <h6 class="fw-bold">Profit</h6>
+                    <span class="badge fw-normal rounded-pill">{{ttprofit}}</span>
+                </div>                
+            </div>            
+        </div>       
+    </div>
+    <div class="row" *ngIf="salesreplistloading">    
+        <app-orderlistloader></app-orderlistloader> 
+    </div>
+    <div class="row" *ngIf="!salesreplistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">     
+                
+                <div class="text-end mb-2">
+                    <div class="d-flex align-items-center gap-2 justify-content-end">
+                        <label for="">Display Record</label>
+                        <select class="form-select" style="width:auto;" (change)="setTotalRecord($event);" title="Display Record">
+                            <option value="10">10</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                            <option value="500">500</option>
+                            <option value="All">All</option>
+                        </select> 
+                    </div>
+                </div>
+
+            <div class="table-responsive">
+                <table class="table data-list mb-0" id="excel-table">                  
+                      <tr>   
+                        <th>Date</th>                        
+                        <th class="text-nowrap">Order Id</th>                
+                        <th>Patient</th>
+                        <th>Contact</th>
+                        <th>Practitioners</th>
+                        <th class="text-nowrap">Total Price</th>
+                        <th class="text-nowrap">Actual Price</th>                        
+                        <th>Status</th>   
+                        <th class="text-nowrap">Payment Status</th> 
+                        <th class="text-nowrap">Payment Gateway Status</th> 
+                        <th class="text-nowrap">Payment Mode</th>     
+                        <th class="text-nowrap">Order By</th> 
+                        <th class="text-nowrap">Complete Date</th> 
+                        <th class="text-nowrap">Renumeration</th> 
+                        <th class="text-nowrap">Renumeration Status</th> 
+                        <th class="text-nowrap">Profit</th>                                                                          
+                      </tr>                                        
+                        <tr *ngFor="let item of salesreplist | searchFilter:searchString1 | paginate: { itemsPerPage: totalRecord, currentPage: p }">
+                            <td class="text-nowrap">{{item.ormDate}}</td>
+                            <td>{{item.ormNo}}</td>
+                            <td>
+                                <div style="width: 200px;">
+                                    {{item.patientName}}
+                                </div>
+                            </td>
+                            <td>{{item.contactNo}}</td>
+                            <td>
+                                <div style="width: 150px;">
+                                    {{item.practitionerName}}
+                                </div>
+                            </td>
+                            <td>{{item.ormPrice}}</td>
+                            <td>{{item.ormPrice-item.discountAmount-item.additionalDiscountAmount}}</td>
+                            <td><span class="badge {{item.ormStatus | trim }} rounded-pill fw-normal py-1">{{item.ormStatus}}</span></td>
+                            <td>{{item.ormPaymentStatus}}</td>
+                            <td>{{item.pgStatus}}</td>
+                            <td>{{item.ormPaymentMethod}}</td>
+                            <td>{{item.orderBy}}</td>
+                            <td>{{item.completeDate}}</td>
+                            <td>{{item.renumeration}}</td>      
+                            <td>{{item.renumerationStatus}}</td>    
+                            <td>{{item.ormPrice-item.discountAmount-item.additionalDiscountAmount-item.renumeration}}</td>                  
+                        </tr>                    
+                </table>                    
+        </div> 
+        <div style="padding:15px;">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>    
+         <!-- <div class="py-3 d-flex align-items-center justify-content-between" >
+            <h5 class="mb-0"><app-pagetitle pagetitle="Total"></app-pagetitle></h5>
+            <div class="d-flex justify-content-between align-items-center gap-5">
+                
+                <h5>TotalPrice : {{ttTotalPrice}}</h5>
+                <h5>Total ActualPrice : {{ttActualPrice}}</h5>
+                <h5 class="mb-0 fw-bold text-dark">{{ttRenumeration}}</h5> 
+                <h5 class="mb-0 fw-bold text-dark">{{ttprofit}}</h5>                 
+            </div>
+        </div> -->
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!salesreplistloading && salesreplist.length == 0"></app-datanotfound>    
+</main>

@@ -1,0 +1,38 @@
+<main id="main" class="main">
+    <div class="card p-3">
+    <app-pagetitle pagetitle="Create Country"></app-pagetitle>    
+     <form #form="ngForm" class="border-0 mt-2">
+        <input type="hidden" name="adminId" value="{{adminId}}" /> 
+        <div class="d-flex flex-wrap gap-3">
+            <div class="flex-fill">
+                <app-inputcontrol errmsg="{{editnameMessage}}"  [(inputModel)]="ccmName" lblname="Name" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                
+            </div>
+            <div class="flex-fill">
+                <app-inputcontrol errmsg="{{editcodeMessage}}"  [(inputModel)]="ccmCode" lblname="Code" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                                
+            </div>                         
+        </div>        
+        <p class="text-danger text-center">{{mes}}</p>  
+        <img width="50" class="d-block mx-auto" class="loader-img" *ngIf="loading" src="/assets/images/loader.gif" />
+        <div class="d-flex justify-content-end gap-2">   
+            <app-buttoncontrolconcomponent routerLink="/{{countrylisturl}}" btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3" btnname="Cancel"></app-buttoncontrolconcomponent>                
+            <app-buttoncontrolconcomponent [btndisable]="loading"  data-bs-target="#alert" data-bs-toggle="modal"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>                                                    
+        </div>            
+    </form> 
+</div>
+    <div class="modal fade" id="alert">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="mb-0">Update Detail</h6>
+                    <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="card-body pt-3 px-1">
+                    <p class="text-center small">Are you sure to update this detail?</p>
+                    <app-buttoncontrolconcomponent class="btn btn-link btn-sm float-end text-decoration-none text-dark p-0"  data-bs-dismiss="modal" btnname="No"></app-buttoncontrolconcomponent>                                    
+                    <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)" data-bs-dismiss="modal"  class="btn btn-link btn-sm float-end text-decoration-none p-0" btnname="Yes"></app-buttoncontrolconcomponent>                                     
+                </div>
+            </div>
+        </div>
+    </div>  
+
+</main>

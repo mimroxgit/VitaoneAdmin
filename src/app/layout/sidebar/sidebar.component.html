@@ -1,0 +1,180 @@
+<style>
+    .active,.active > i{
+       background-color: #205581;
+       color:white;
+    }
+ </style>
+ <aside id="sidebar" class="sidebar">
+     <app-logo logostyle="logo"></app-logo>
+     <ul class="sidebar-nav" id="sidebar-nav">
+       <li class="nav-item" (click)="sidebarToggle()"> 
+          <a class="nav-link" routerLinkActive="active" routerLink="/{{dashboardUrl}}"><img src="assets/images/Dahboardimg/das.png"  class="me-2 sidebarmenu-icon"> <span>Dashboard</span> </a>
+       </li>        
+       <li class="nav-item"> 
+          <a class="nav-link justify-content-between align-items-center" href="#collapse" data-bs-toggle="collapse"> 
+            <span><img src="assets/images/Dahboardimg/Product.png"  class="me-2 sidebarmenu-icon"> <span>Products</span> </span>
+            <i class="bi bi-chevron-right small"></i>
+         </a> 
+          <ul class="collapse bg-silver px-0 submenu" id="collapse">
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{categorieslistUrl}}"> <img src="assets/images/Dahboardimg/categories.png"  class="me-2 sidebarmenu-icon"> <span>Categories</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{subcategorieslistUrl}}"> <img src="assets/images/Dahboardimg/Subcategories.png"  class="me-2 sidebarmenu-icon"> <span>Sub Categories</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{itemunitslistUrl}}"> <img src="assets/images/Dahboardimg/Subcategories.png"  class="me-2 sidebarmenu-icon"> <span>Item Units</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="/{{doselistUrl}}"><img src="assets/images/Dahboardimg/dose.png"  class="me-2 sidebarmenu-icon"> <span>Doses</span> </a>
+            </li> 
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="/{{templateUrl}}"><img src="assets/images/Dahboardimg/Courier.png"  class="me-2 sidebarmenu-icon"> <span>Protocol</span> </a>
+            </li>   
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{itemslistUrl}}"> <img src="assets/images/Dahboardimg/Product.png"  class="me-2 sidebarmenu-icon"> <span>Items</span> </a>
+            </li>
+          </ul>
+       </li>
+
+       <li class="nav-item"> 
+         <a href="#collapse2" data-bs-toggle="collapse" class="nav-link justify-content-between align-items-center"> 
+            <span><img src="assets/images/Dahboardimg/Prectitionermaster.png"  class="me-2 sidebarmenu-icon"> <span>Practitioner Master</span> </span>
+            <i class="bi bi-chevron-right small"></i>
+         </a>
+         <ul class="collapse bg-silver px-0 submenu" id="collapse2">
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{parcategorieslistUrl}}"> <img src="assets/images/Dahboardimg/Prectitionercategories.png"  class="me-2 sidebarmenu-icon"> <span>Categories</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{pargrouplistUrl}}"> <img src="assets/images/Dahboardimg/Prectitionergroup.png"  class="me-2 sidebarmenu-icon"> <span>Practitioner Group</span> </a>
+            </li>    
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{practitionerslistUrl}}"> <img src="assets/images/Dahboardimg/Prectitioner.png"  class="me-2 sidebarmenu-icon"> <span>Practitioners</span> </a>
+            </li>
+         </ul>
+      </li>
+      
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{patientlistUrl}}"> <img src="assets/images/Dahboardimg/Patients.png"  class="me-2 sidebarmenu-icon"> <span>Patients</span> </a>
+      </li>
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{orderslistUrl}}"> <img src="assets/images/Dahboardimg/order.png"  class="me-2 sidebarmenu-icon"> <span>Orders</span> </a>
+      </li>
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{InitiatedorderlistUrl}}"> <img src="assets/images/Dahboardimg/iorder.png"  class="me-2 sidebarmenu-icon"> <span>Initiated Orders</span> </a>
+      </li>
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{inventorylistUrl}}"> <img src="assets/images/Dahboardimg/inv.png"  class="me-2 sidebarmenu-icon"> <span>Inventory</span> </a>
+      </li>
+      <li class="nav-item"> 
+         <a href="#collapse4" data-bs-toggle="collapse" class="nav-link justify-content-between align-items-center"> 
+            <span><img src="assets/images/Dahboardimg/report.png"  class="me-2 sidebarmenu-icon"> <span>Report</span> </span>
+            <i class="bi bi-chevron-right small"></i>
+         </a>
+         <ul class="collapse bg-silver px-0 submenu" id="collapse4">
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{salesreplistUrl}}"> <img src="assets/images/Dahboardimg/salereport.png"  class="me-2 sidebarmenu-icon"> <span>Sales Report</span> </a>
+            </li>           
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{productsalesreplistUrl}}"> <img src="assets/images/Dahboardimg/salereport.png"  class="me-2 sidebarmenu-icon"> <span>Product Sales Report</span> </a>
+            </li>    
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="{{ordersummaryreplistUrl}}"> <img src="assets/images/Dahboardimg/salereport.png"  class="me-2 sidebarmenu-icon"> <span>Order Summary Report</span> </a>
+            </li>           
+         </ul>
+         
+      </li>
+      
+      <!--  <li class="nav-item"> 
+         <a class="nav-link" routerLink="/pages-login"> <img src="assets/images/Dahboardimg/Account.png"  class="me-2 sidebarmenu-icon"> <span>Settings</span> </a>
+      </li> -->
+      
+      <!-- <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{templateUrl}}"> <img src="assets/images/Dahboardimg/Courier.png"  class="me-2 sidebarmenu-icon"> <span>Template</span> </a>
+      </li> -->
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{courierlistUrl}}"> <img src="assets/images/Dahboardimg/Courier.png"  class="me-2 sidebarmenu-icon"> <span>Courier Companies</span> </a>
+      </li>
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{couponlistUrl}}"> <img src="assets/images/Dahboardimg/Cupon.png"  class="me-2 sidebarmenu-icon"> <span>Coupon Management</span> </a>
+      </li>      
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{paymentManagementlistUrl}}"> <img src="assets/images/Dahboardimg/Paymentmanagement.png"  class="me-2 sidebarmenu-icon"> <span>Remuneration</span> </a>
+      </li>
+      <li class="nav-item" (click)="sidebarToggle()"> 
+         <a class="nav-link" routerLinkActive="active" routerLink="/{{paymentgatewaylistUrl}}"> <img src="assets/images/Dahboardimg/Paymentgateway.png"  class="me-2 sidebarmenu-icon"> <span>Payment Gateway</span> </a>
+      </li>
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{webpagesUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/webpage.png"  class="me-2 sidebarmenu-icon"> <span>Web Pages</span> </a>
+      </li> 
+      <li class="nav-item"> 
+         <a href="#collapse3" data-bs-toggle="collapse" class="nav-link justify-content-between align-items-center"> 
+            <span><img src="assets/images/Dahboardimg/Area.png"  class="me-2 sidebarmenu-icon"> <span>Area</span> </span>
+            <i class="bi bi-chevron-right small"></i>
+         </a>
+         <ul class="collapse bg-silver px-0 submenu" id="collapse3">
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="/{{countrylistUrl}}"><img src="assets/images/Dahboardimg/country.png"  class="me-2 sidebarmenu-icon"> <span>Country</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="/{{statelistUrl}}"><img src="assets/images/Dahboardimg/state.png"  class="me-2 sidebarmenu-icon"> <span>State</span> </a>
+            </li>
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLinkActive="active" routerLink="/{{citylistUrl}}"><img src="assets/images/Dahboardimg/city.png"  class="me-2 sidebarmenu-icon"> <span>City</span> </a>
+            </li>
+                        
+         </ul>
+      </li>
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{smsTemplateUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/smstemplate.png"  class="me-2 sidebarmenu-icon"> <span>SMS Template</span> </a>
+      </li>  
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{productreviewUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/rating.png"  class="me-2 sidebarmenu-icon"> <span>Product Review</span> </a>
+      </li>  
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{inquirylistUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/inq.png"  class="me-2 sidebarmenu-icon"> <span>Contact Inquiry</span> </a>
+      </li>
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{blogListlistUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/blog.png"  class="me-2 sidebarmenu-icon"> <span>Blog</span> </a>
+      </li>
+      <li class="nav-item"> 
+         <a href="#collapse5" data-bs-toggle="collapse" class="nav-link justify-content-between align-items-center"> 
+            <span><img src="assets/images/Dahboardimg/elearning.png"  class="me-2 sidebarmenu-icon"> <span>E learning</span> </span>
+            <i class="bi bi-chevron-right small"></i>
+         </a>
+         <ul class="collapse bg-silver px-0 submenu" id="collapse5">            
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLink="{{lessonListlistUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/lesson.png"  class="me-2 sidebarmenu-icon"> <span>Lesson</span> </a>
+            </li> 
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLink="{{moduleListlistUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/module.png"  class="me-2 sidebarmenu-icon"> <span>Module</span> </a>
+            </li> 
+            <li class="nav-item" (click)="sidebarToggle()"> 
+               <a class="nav-link" routerLink="{{courseListlistUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/course.png"  class="me-2 sidebarmenu-icon"> <span>Course</span> </a>
+            </li>                                             
+         </ul>         
+      </li>            
+      <li class="nav-item"> 
+         <a class="nav-link" routerLink="{{settingsUrl}}" routerLinkActive="active" > <img src="assets/images/Dahboardimg/setting.png"  class="me-2 sidebarmenu-icon"> <span>Settings</span> </a>
+      </li>        
+      <li class="nav-item"> 
+         <a class="nav-link"  href="#Alogout" data-bs-toggle="modal" > <img src="assets/images/Dahboardimg/logout.png"  class="me-2 sidebarmenu-icon"> <span>Logout</span> </a>         
+      </li>                
+     </ul>
+  </aside>
+  <div class="modal fade" id="Alogout">
+   <div class="modal-dialog modal-sm modal-dialog-centered">
+       <div class="modal-content">
+           <div class="modal-header">
+               <h6 class="mb-0">Logout</h6>
+               <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+           </div>
+           <div class="card-body pt-3 px-1">
+               <p class="text-center small">Are You sure you want to logout ?</p>
+               <button class="btn btn-cancel btn-sm float-end text-decoration-none text-dark" data-bs-dismiss="modal">Cancel</button>
+               <button class="btn btn-theme btn-sm float-end text-decoration-none text-white me-2" data-bs-dismiss="modal" (click)="logout()">Logout</button>
+           </div>
+       </div>
+   </div>
+</div>

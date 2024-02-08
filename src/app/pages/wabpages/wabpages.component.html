@@ -1,0 +1,32 @@
+<main id="main" class="main">
+    <app-pagetitle pagetitle="Web Pages" class="p-1" ></app-pagetitle>      
+    <form #form="ngForm" class="card border-0 p-3 ">
+    <div class="row">
+    <div class="col-md-12">
+    <app-labelcontrolconcomponent label="About Us" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent  [(inputModel)]="dpmAboutUs" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+    <!-- <app-labelcontrolconcomponent label="Contact Us" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmContactUs" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent> -->
+    </div>
+    <div class="col-md-12">
+    <app-labelcontrolconcomponent label="Terms & Condition" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmTerms" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+    <app-labelcontrolconcomponent label="Privacy Policy" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmPrivacyPolicy" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>    
+    <app-labelcontrolconcomponent label="Functional Medicine Doctor" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmFmDoctor" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>    
+    <app-labelcontrolconcomponent label="Functional Medicine Nutritionist" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmFmNutritionist" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>    
+    <app-labelcontrolconcomponent label="Return Policy" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmReturn" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+    <app-labelcontrolconcomponent label="Refund Policy" [star]="false" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+    <app-htmleditorcontrolcomponent   [(inputModel)]="dpmRefundPolicy" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>    
+    </div>    
+    <p class="text-danger text-center">{{mes}}</p>  
+    <img *ngIf="webloading" style="width: 150px;" class="d-block mx-auto" class="loader-img" src="/assets/images/loadernew.gif"/>
+    <div class="d-flex justify-content-end gap-2">   
+        <app-buttoncontrolconcomponent [btndisable]="webloading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>                                                          
+    </div>   
+    </div>
+    </form>
+</main>

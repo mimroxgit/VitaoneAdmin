@@ -1,0 +1,79 @@
+<main class="main p-details" id="main">
+    <form #form="ngForm">
+        <div class="card p-3">
+            <app-pagetitle pagetitle="Assing Lesson"></app-pagetitle>
+        </div>
+        <div class="row">
+            <div class="col-md-7">
+                <div class="card p-3 px-md-3">      
+                    <div class="d-flex gap-3 align-items-center mb-3">
+                        <h6 class="fw-bold flex-shrink-0 mb-0">Lesson List</h6>  
+                    <input type="text" class="form-control search-input w-100 mb-0 rounded" (ngModelChange)=onchaneg($event)
+                                [(ngModel)]="searchString" name="searchString" placeholder="Type to search..." />
+                    </div>                                                     
+                    <div class="selection-item-block">                        
+                        <div class="d-flex flex-md-nowrap flex-wrap align-items-start" *ngIf="!lsnlistloading">    
+                            <div class="tab-content w-100 p-md-0 p-md-2" id="v-pills-tabContent">                                
+                                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                                    aria-labelledby="v-pills-home-tab">
+                                    <div class="row mx-0">
+                                        <div class="col-md-6 px-md-1 px-0 col-12"
+                                            *ngFor=" let mdl of lsnlist | searchFilter:searchString,let i = index" [ngStyle]="{'display':clrtick[mdl.id]  != 'green-tick' ? 'block' : 'none'}">
+                                            <div *ngIf="clrtick[mdl.id]  != 'green-tick'"  class="card p-3 store-block border shadow-none overflow-hidden mb-3">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <h6 class="mb-0 fw-bold text-black text-truncate">{{mdl.lsmTitle}}</h6>                                                                                                       
+                                                    <a (click)=oncat(mdl,i) class="icon-top tick {{clrtick[mdl.id]}}">
+                                                        <span *ngIf="clrtick[mdl.id] != 'green-tick'" >Add</span>
+                                                        <span *ngIf="clrtick[mdl.id]"><i class="bi bi-check-circle" style="font-size: 12px;"></i> Added</span></a>                                                        
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!----Loader-------->
+                        <div class="d-flex" *ngIf="lsnlistloading">
+                            <div class="cat-list me-3 d-flex justify-content-between gap-3" style="width: 100%;">
+                                <div style="width: 49%;height: 50px;flex-shrink: 0;">
+                                    <ngx-skeleton-loader count="5" appearance="line" [theme]="{height: '100%',width:'100%'}"></ngx-skeleton-loader>
+                                </div>
+                                <div style="width: 49%;height: 50px;flex-shrink: 0;">
+                                    <ngx-skeleton-loader count="5" appearance="line" [theme]="{height: '100%',width:'100%'}"></ngx-skeleton-loader>
+                                </div>                                                               
+                            </div>                           
+                        </div>
+                    </div>
+                    <div class="added-symbol"><i class="bi bi-chevron-right"></i></div>                                        
+                </div>
+            </div>
+             <div class="col-md-5">
+                <div class="card px-3 py-3">            
+                    <h6 class="fw-bold mb-2">Added Lesson </h6>                                                                   
+                    <div class="selection-item-block select-right-block">                        
+                        <div *ngIf="itemList.length>=1">
+                            <div class="mb-2 p-3 rounded" style="background-color: #e8ebf2;"
+                                *ngFor="let itm of itemList;let i = index">
+                                <div class="d-flex justify-content-between">
+                                    <div class="w-75">
+                                        <h5 class="mb-0">{{itm.lsmTitle}}</h5>  
+                                    </div>
+                                    <a (click)="deleteItem(itm.id)" class="text-danger" style="cursor: pointer;">
+                                        <i class="bi bi-trash"></i>
+                                    </a>  
+                                </div>                                                            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+        <div class="text-end">
+            <app-buttoncontrolconcomponent routerLink="/{{modulelistUrl}}"
+                btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3"
+                btnname="Cancel"></app-buttoncontrolconcomponent>
+            <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"
+                btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+        </div>
+    </form>
+</main>

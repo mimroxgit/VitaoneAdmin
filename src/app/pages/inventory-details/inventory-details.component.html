@@ -1,0 +1,62 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="{{invItemName}}"></app-pagetitle>
+        <div class="d-md-flex align-items-center gap-2 mt-md-0 mt-2">
+            <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+            <div class="text-end flex-grow-1">
+                <a class="btn btn-cancel" routerLink="{{inventorylistUrl}}" >Back</a>
+              </div>
+        </div>                    
+      </div>
+    </div>
+    <div class="row" *ngIf="invDlistloading">    
+      <app-inventorydetailoader></app-inventorydetailoader> 
+  </div>
+  <div class="row" *ngIf="!invDlistloading">
+      <div class="col-md-12">
+          <div class="card p-3 border-0">            
+          <div class="table-responsive">
+              <table class="table data-list mb-0">                  
+                    <tr>   
+                      <th>Date</th>                        
+                      <th>Bathch No</th>                
+                      <th>Order No</th>
+                      <th>Inward Quantity</th>                
+                      <th>Outward Quantity</th>                                                                                     
+                    </tr>                                    
+                      <tr *ngFor="let item of invDlist | searchFilter:searchString1">                         
+                          <td>{{item.invDate | date:"d-MM-yyyy"}}</td>
+                          <td>{{item.batchNo}}</td>
+                          <td><a routerLink="/{{orderdetailsurl}}/{{item.orderId}}" *ngIf="item.orderId != '-'">{{item.orderNo}}</a></td>
+                          <td>{{item.inQty}}</td>
+                          <td>{{item.outQty}}</td>                          
+                      </tr>
+                  <tr>
+                    <td colspan="3" style="font-weight: bold;color: black;">
+                      Total
+                    </td>
+                    <td style="font-weight: bold;color:black;">
+                      {{inttamount}}
+                      </td>
+                    <td style="font-weight: bold;color:black;">
+                      {{outtamount}}
+                      </td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" class="text-success" style="font-weight: bold;color: black;">
+                      Available Balance
+                    </td>
+                    <td colspan="2" class="text-success" style="font-weight: bold;color:black;">
+                      {{inttamount - outtamount}}
+                      </td>
+                  </tr>
+              </table>  
+      </div>          
+  </div>
+  </div>
+  </div>
+
+  <app-datanotfound *ngIf="!invDlistloading && invDlist.length == 0"></app-datanotfound>
+        
+  </main>

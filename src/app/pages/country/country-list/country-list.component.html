@@ -1,0 +1,14 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="Country"></app-pagetitle>
+          <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">                     
+            <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>             
+            <app-createicon  routerLink="{{countrycreateurl}}"></app-createicon>
+          </div>
+      </div>
+  </div>
+        <app-cityloader *ngIf="countrylistloading"></app-cityloader>         
+        <app-table [searchString]="searchString1" *ngIf="!countrylistloading" [tableList]="tableTdlist" [tableData]="countrylist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2"  (onedit)="editCountry($event)" (ondelete)="deletecnt($event)"  ></app-table>    
+        <app-datanotfound *ngIf="!countrylistloading && countrylist.length == 0"></app-datanotfound>
+  </main>

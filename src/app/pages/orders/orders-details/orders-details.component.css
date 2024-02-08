@@ -1,0 +1,38 @@
+.short-name{
+    outline:1px solid #f0f0f0;
+    outline-offset: 3px;
+    width: 45px;height: 45px;
+    border-radius: 50px;
+    display: flex;align-items: center;justify-content: center;
+    background-color: #f0f0f0;
+    flex-shrink: 0;margin-right: 10px;
+}
+.img{
+    width: 65px;
+    height: 65px;
+    flex-shrink: 0;
+}
+.img img{
+  width: 100%;height: 100%;object-fit: contain;
+}
+.dot{
+	width: 10px;height: 10px;border-radius: 50%;
+	display: inline-block;background-color: grey;
+  }
+  .Pending {
+	background-color: #418df1;
+  }
+  .Processing{
+	background-color: rgb(50, 137, 190);
+  }
+  .ReadytoShipped{
+	background-color: #305483;
+  }
+  .Dispatch{
+	background-color: maroon;
+	-color: red;
+  }
+  .Delivered{background-color: green;}
+  .Rejected{background-color: red;}
+  .Cancel{background-color: rgb(194, 14, 155);}
+  .form-select{-height: 48px !important;}

@@ -1,0 +1,22 @@
+<main id="main" class="main">
+    <div class="card p-3">
+    <app-pagetitle pagetitle="Create Country"></app-pagetitle>    
+     <form #form="ngForm" class="border-0 mt-2">
+        <input type="hidden" name="adminId" value="{{adminId}}" /> 
+        <div class="d-flex flex-wrap gap-3">
+            <div class="flex-fill">
+                <app-inputcontrol errmsg="{{cntnameMessage}}"  [(inputModel)]="ccmName" lblname="Name" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                
+            </div>
+            <div class="flex-fill">
+                <app-inputcontrol errmsg="{{cntcodeMessage}}"  [(inputModel)]="ccmCode" lblname="Code" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                                
+            </div>                         
+        </div>        
+        <p class="text-danger text-center">{{mes}}</p>  
+        <img width="50" class="d-block mx-auto" class="loader-img" *ngIf="cntloading" src="/assets/images/loader.gif" />
+        <div class="d-flex justify-content-end gap-2">   
+            <app-buttoncontrolconcomponent routerLink="/{{countrylisturl}}" btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3" btnname="Cancel"></app-buttoncontrolconcomponent>                
+            <app-buttoncontrolconcomponent [btndisable]="cntloading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>                                                    
+        </div>            
+    </form>
+</div> 
+</main>

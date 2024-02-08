@@ -1,0 +1,11 @@
+.loader-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.blog-img img{
+    width: 70px;
+    height: 50px;object-fit: contain;
+}

@@ -1,0 +1,132 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Practitioner Details"></app-pagetitle>
+            <a routerLink="{{practitionerslistUrl}}" class="btn btn-cancel">Back</a>
+        </div>
+    </div>   
+    <div class="card p-3" *ngIf="!loading">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+            <h5>{{Practitionerslist.pcmName}}</h5>
+            <span class="small">Reg Date : {{Practitionerslist.pcmCreateDate |date:'dd/MM/yyyy'}}</span>
+        </div>
+        
+        <div class="d-flex gap-3">
+            <span *ngIf="Practitionerslist.pcmContactNo != '-'"><i class="bi bi-telephone"></i> {{Practitionerslist.pcmContactNo}}</span>
+            <span *ngIf="Practitionerslist.pcmEmail != '-'"><i class="bi bi-envelope"></i> {{Practitionerslist.pcmEmail}}</span>
+            <span *ngIf="Practitionerslist.pcmAddress != '-'"><i class="bi bi-geo-alt"></i> {{Practitionerslist.pcmAddress}}</span>
+        </div>
+        
+    </div> 
+    <app-practitioner-detailsloader *ngIf="loading"></app-practitioner-detailsloader>
+    <app-datanotfound *ngIf="!loading && Practitionerslist.length == 0"></app-datanotfound>
+    <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center gap-2 mt-md-0 mt-2">
+            <app-pagetitle pagetitle="Patients"></app-pagetitle>
+            <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString"  type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+        </div>               
+        <app-patientsloader *ngIf="patloading"></app-patientsloader>        
+        <div class="table-responsive mt-3"*ngIf="!patloading">
+            <div class="fix-table">                
+            <table class="table data-list product-discount">
+                <tr style="position: sticky;top: 0;">
+                    <th style="width:200px;padding-left: 25px;">
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">Reg Date</label>
+                        </div>
+                    </th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Contact</th>
+                    <th>Reg.By</th>
+                    <th>Status</th>
+                    <th class="text-end" style="margin-left: 10px;">Action</th>                   
+                </tr>
+               
+                <tr *ngFor="let itm of PracPatientslist| searchFilter:searchString"> 
+                    
+                    <td>
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">                                
+                                {{itm.regDate}}
+                            </label>
+                        </div>
+                    </td>
+                    <td>{{itm.name}}</td>
+                    <td>{{itm.email}}</td>
+                    <td>{{itm.contact}}</td>
+                    <td>{{itm.regBy}}</td>
+                    <td *ngIf="itm.status == true"><span class="badge badge-active rounded-pill fw-normal">Active</span></td>
+                    <td *ngIf="itm.status == false"><span class="badge badge-deactive rounded-pill fw-normal">Deactive</span></td>
+                    <td class="text-end">
+                        <div class="d-flex gap-1 justify-content-end">
+                            <a   (click)="patientsOrder(itm.id)" class="btn border btn-sm text-primary shadow-sm py-1 me-1"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </td>                    
+                </tr>           
+            </table>               
+        </div>         
+        </div>
+       
+    </div>
+    <app-datanotfound *ngIf="!patloading && PracPatientslist.length == 0"></app-datanotfound>
+    <!----------------------------Start Coupon Code List----------------------->
+    <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center gap-2 mt-md-0 mt-2">
+            <app-pagetitle pagetitle="Coupon Code"></app-pagetitle>
+            <input (ngModelChange)=onchanegcpn($event) [(ngModel)]="searchString1"  type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+        </div>               
+        <app-patientsloader *ngIf="couponloading"></app-patientsloader>        
+        <div class="table-responsive mt-3"*ngIf="!couponloading" >
+            <table class="table data-list">
+                <tr>
+                    <th>Coupon Code</th>
+                    <th>Value</th> 
+                    <th>Type</th>                                                                        
+                </tr>
+                <tr *ngFor="let itm of PractitionersCouponlist| searchFilter:searchString1">                    
+                    <td>{{itm.pgcCouponCode}}</td>
+                    <td *ngIf="itm.pgcCouponType == 'Amount'">{{itm.pgcCouponValue}}  Rs</td> 
+                    <td *ngIf="itm.pgcCouponType == 'Percentage'">{{itm.pgcCouponValue}} %</td> 
+                    <td>{{itm.pgcType}}</td>
+                                                        
+                </tr>    
+            </table>            
+        </div>
+       
+    </div>
+    <app-datanotfound *ngIf="!couponloading && PractitionersCouponlist.length == 0"></app-datanotfound>
+    <!----------------------------Start Transaction List----------------------->
+    <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center gap-2 mt-md-0 mt-2">
+            <app-pagetitle pagetitle="Transaction"></app-pagetitle>
+            <input (ngModelChange)=onchanegtrn($event) [(ngModel)]="searchStringtrn"  type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+        </div>               
+        <app-patientsloader *ngIf="translistloading"></app-patientsloader>        
+        <div class="table-responsive mt-3"*ngIf="!translistloading" >
+            <table class="table data-list">
+                <tr>
+                    <th>Date</th>                        
+                        <th>Order Id</th>
+                        <th>Transaction Id</th>                
+                        <th>Patients</th>
+                        <th>Total Amount</th>
+                        <th>Total Commission</th>
+                        <th>Received</th>                                                                        
+                </tr>
+                <tr *ngFor="let tr of translist| searchFilter:searchStringtrn">                    
+                    <td>{{tr.orderDate | date:"d-MM-yyyy"}}</td>
+                    <td><a routerLink="/{{orderdetailsurl}}/{{tr.orderId}}" class="ps-0">{{tr.orderNo}}</a></td>
+                    <td>{{tr.transactionId}}</td>
+                    <td>{{tr.patientName}}</td>
+                    <td>{{tr.totalAmount}}</td>
+                    <td>{{tr.type=='DR'?tr.commisionAmount:0}}</td>
+                    <td>{{tr.type=='CR'?tr.commisionAmount:0}}</td>
+                                                        
+                </tr>    
+            </table>            
+        </div>
+       
+    </div>
+    <app-datanotfound *ngIf="!translistloading && translist.length == 0"></app-datanotfound>
+</main>

@@ -1,0 +1,150 @@
+<main class="main" id="main">    
+    <form #form="ngForm" >
+    <div class="card p-3">
+        <app-pagetitle pagetitle="Create Group"></app-pagetitle>
+        <div class="row mt-2 align-items-start">
+            <div class="col-md-6">                
+                <app-inputcontrol errmsg="{{pgmnameMessage}}"  [(inputModel)]="pgmName" lblname="Name" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                
+            </div>
+            <div class="col-md-4">                
+                <app-inputcontrol errmsg="{{pgmdisMessage}}" min="0"   [(inputModel)]="pgmDefaultDiscount" [star]="false" lblname="Default Discount For All Products ( in % )" type="number"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                
+            </div>
+            <div class="col-md-2 apply-btn" style="margin-top: 28px;">                    
+                <app-buttoncontrolconcomponent  (click)="onapply(pgmDefaultDiscount)"  btnstyle="bg-theme2 border-0 px-4 text-white rounded-0" btnname="Apply"></app-buttoncontrolconcomponent>                                     
+            </div>
+            <div class="col-md-12">
+                <span class="text-danger">{{mes}}</span>
+            </div>
+            <img *ngIf="loading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />            
+        </div>
+        <div>
+            <label class="form-check-label">
+                <input (click)="Defaultcoupon()" type="checkbox" class="form-check-input" > Default Coupon Applicable
+            </label>&nbsp;&nbsp;
+            <label class="form-check-label">
+                <input (click)="Customcoupon($event)" type="checkbox" class="form-check-input" > Custom Coupon Creation
+            </label>
+        </div>
+    </div> 
+    <div class="card p-3" *ngIf="isdef">
+        <app-pagetitle pagetitle="Default Coupon Creation"></app-pagetitle>
+        <div class="row mt-2 align-items-start">
+           
+            <div class="col-md-4" >
+                <app-labelcontrolconcomponent label="Discount Type" [star]="true" class="mb-1"></app-labelcontrolconcomponent>
+                <select inputstyle="textbox" class="form-select rounded-0" style="height: 40px;" (change)=platformDD($event);>
+                  <option value="-"  [selected]="cpnType=='-'">Select Discount Type</option>
+                  <option  value="Percentage" [selected]="cpnType=='Percentage'">Percentage</option>
+                  <option  value="Amount" [selected]="cpnType=='Amount'">Amount</option>
+                </select>
+              </div>
+            <div class="col-md-6" >                
+                <app-inputcontrol errmsg="{{pgmnameMessage}}" minValue="0"  [(inputModel)]="cpnValue" lblname="Discount Value" type="number"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>                
+            </div>            
+            <div class="col-md-2 apply-btn" style="margin-top: 28px;" >                    
+                <app-buttoncontrolconcomponent  (click)="onDiscountApply()"  btnstyle="bg-theme2 border-0 px-4 text-white rounded-0" btnname="Apply"></app-buttoncontrolconcomponent>                                     
+            </div>
+            <div class="table-responsive" *ngIf="couponList.length>=1">
+                <table class="table data-list product-discount">
+                    <tr>
+                        
+                        <th>Discount Type</th>
+                        <th>Discount Value</th>  
+                        <th>Action</th>                                      
+                    </tr>
+                    <tbody *ngFor="let cpn of couponList;let i = index">
+                    <tr>                                            
+                        <td>{{cpn.type}}</td>
+                        <td>{{cpn.value}}</td>                        
+                        <td>
+                            <button  href="#DeleteModalp" (click)="deleteDiscount(cpn.no)"    data-bs-toggle="modal" class="btn btn-danger btn-sm border-0 m-2"><i class="bi bi-trash text-white"></i></button>                                        
+                        </td>
+                    </tr> 
+                </tbody>
+                </table>                
+            </div>                        
+        </div>
+    </div>    
+    <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between">
+            <app-pagetitle pagetitle="Items Discount Details"></app-pagetitle>
+            <div class="form-check ps-md-2 ps-4 text-end" *ngIf="!itmloading">
+                <label class="form-check-label">
+                    <input (click)="Allselect($event)" type="checkbox" class="form-check-input" [checked]="IsAllselect"> Select all products 
+                </label>
+            </div>
+        </div>
+        <div class="card mt-3 mb-0" *ngFor="let itmd of itemList;let ind1 = index">
+            <div class="card-header border py-0 px-3 d-flex justify-content-between align-items-center shadow-none" >
+                <label class="form-check-label me-2">
+                    <input (click)="particularSelect($event,ind1,itmd)" type="checkbox" class="form-check-input" [checked]="IsParticular[ind1]">
+                </label>
+                <button class="btn  d-block w-100 text-start p-3 fw-bold ps-0" data-bs-toggle="collapse" [attr.data-bs-target]="'#item' + ind1" > {{itmd}}</button>
+                <i class="bi bi-chevron-right bg-transparent text-theme"></i>
+            </div>
+            <div class="collapse show border p-0 border-top-0" id="item{{ind1}}">               
+                <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table data-list product-discount">
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>Variant</th>
+                            <th style="white-space: nowrap;">Cost Price</th>
+                            <th>MRP</th>
+                            <th>Practitioner Margin (in %)</th>
+                            <th>Practitioner Margin (in Amount)</th>
+                            <th style="width:120px">Practitioner Price</th>
+                        </tr>
+                        <tbody *ngFor="let itm of itmactivelist;let i = index">
+                        <tr *ngIf="itm.name==itmd">                    
+                            <td>
+                                <div class="form-check ps-2">
+                                    <label class="form-check-label">                                
+                                        <input (change)="check($event,i)"  type="checkbox" class="form-check-input" [checked]="ischeck[i]" >
+                                    </label>
+                                </div>
+                            </td>
+                            <td>{{itm.variantname}}</td>
+                            <td><input type="hidden" ngModel="itmCostPrice[itm.costPrice]" value="itmCostPrice[itm.costPrice]">Rs {{itm.costPrice}}</td>
+                            <td style="white-space: nowrap;">Rs {{itm.mrpPrice}}</td>
+                            <td>
+                                <span style="display:none;">{{dispar[i]=dispar1}}</span>                        
+                                <app-inputcontrol newlbl="d-none" (change)="setDis1($event,i,itm.mrpPrice);"  [(inputModel)]="dispar[i]" value="{{disparamount[i]*100/itm.mrpPrice}}" [star]="false" type="text" inptclass="m-0" inputstyle="textbox"></app-inputcontrol>                        
+                            </td>
+                            <td>                        
+                                <app-inputcontrol newlbl="d-none" (change)="setDis2($event,i,itm.mrpPrice);"  [(inputModel)]="disparamount[i]"  value="{{itm.mrpPrice*dispar[i]/100}}" [star]="false" type="text" inptclass="m-0" inputstyle="textbox"></app-inputcontrol>                        
+                            </td>
+                            <td>
+                                <div style="width:120px">
+                                    <app-inputcontrol newlbl="d-none" [(inputModel)]="disparprice[i]"  value="{{itm.mrpPrice-(itm.mrpPrice*dispar[i]/100)}}" [star]="false" type="text" inptclass="m-0" inputstyle="textbox"></app-inputcontrol>                        
+                                </div>
+                            </td>
+                        </tr> 
+                    </tbody>
+                    </table>
+                    <img *ngIf="itmloading" style="width:50px;height:50px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />                
+                </div>
+                </div>
+            </div>
+        </div>
+
+       
+        <div class="col-md-12 mt-2 text-end">              
+            <div class="ps-2" *ngIf="!itmloading">
+                <div class="form-check form-switch"> 
+                    <label class="form-check-label" for="flexSwitchCheckDefault">
+                    <input class="form-check-input" type="checkbox"  (change)="isDefault($event)"  id="flexSwitchCheckDefault" checked>
+                    Default</label>
+                </div>
+            </div>
+
+            <app-buttoncontrolconcomponent routerLink="/{{practitionergrouplistUrl}}" btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3" btnname="Cancel"></app-buttoncontrolconcomponent>                
+            <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>                                     
+        </div>
+    </div>
+
+
+    </form>
+</main>

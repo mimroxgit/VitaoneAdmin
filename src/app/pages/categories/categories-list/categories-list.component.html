@@ -1,0 +1,13 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Categories"></app-pagetitle>  
+            <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="catSearch" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">
+                <app-createicon  routerLink="{{categoriescreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>    
+    <app-categoryblock [searchString]="catSearch"   [isloder]="categorielistloading"  [catalogue]="categorielist" (onscroll)="onScroll()" (onedit)="editCat($event)" (ondelete)="deleteCat($event)"></app-categoryblock>        
+    <app-datanotfound *ngIf="!categorielistloading && categorielist.length == 0"></app-datanotfound>
+</main>

@@ -1,0 +1,29 @@
+th{
+    vertical-align: middle;
+}
+
+td{
+    vertical-align: middle;
+    padding-top: 25px;
+}
+
+th{
+    background-color: #ddd;
+    padding: 15px;margin-bottom: 10px;
+    -border-radius: 5px;
+}
+th:first-child{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+th:last-child{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+td{
+    color: grey;
+}
+.table>:not(:last-child)>:last-child>* {
+    border-bottom-color: transparent;
+}

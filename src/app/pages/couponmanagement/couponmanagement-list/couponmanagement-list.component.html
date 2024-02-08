@@ -1,0 +1,34 @@
+<main class="main" id="main">
+    <div class="card p-3">
+      <div class="d-md-flex justify-content-between align-items-center">
+        <app-pagetitle pagetitle="Coupon Management"></app-pagetitle>
+          <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">                      
+            <!-- <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>               -->
+              <app-createicon  routerLink="{{couponcreateurl}}"></app-createicon>
+          </div>
+      </div>
+  </div>
+  <div class="row align-items-end mb-3">
+        <div class="col-md-2">
+            <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+        </div>
+        <div class="col-md-2">
+            <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+        </div>        
+        <div class="col-md-3">
+            <label class="form-label mb-1">Practitioner</label>
+            <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner" filedName="name" fieldId="id" (selectedvalue)=onpra($event)  [options]="praoptions" [filteredOptions]="prafilteredOptions" ></app-searchdropdownconcomponent>
+        </div>
+        <div class="col-md-4">
+            <label class="form-label mb-1 d-none d-md-block"></label>
+            <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1"  type="text" class="form-control search-input mt-md-0 mt-3" placeholder="Search..." style="height: 40px;">
+        </div>
+        <div class="col-md-1">             
+            <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3 my-md-0 my-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+        </div>
+       
+    </div>
+        <app-couponlistloader *ngIf="couponlistloading"></app-couponlistloader>         
+        <app-table [searchString]="searchString1" *ngIf="!couponlistloading" [tableList]="tableTdlist" [tableData]="Couponlist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2" (onedit)="editcoupon($event)" (ondelete)="deletecoupon($event)"  ></app-table>    
+        <app-datanotfound *ngIf="!couponlistloading && Couponlist.length == 0"></app-datanotfound>
+  </main>

@@ -1,0 +1,63 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-flex flex-wrap  justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Remuneration"></app-pagetitle>    
+            <div class="row align-items-end justify-content-end flex-grow-1">                 
+                <div class="col-md-6 col-12 my-md-0 my-2">
+                    <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>             
+                </div>                                                
+            </div>
+        </div>
+    </div>
+    <!-- <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-2 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-2 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>                        
+            <div class="col-md-4 mb-2">
+                <label class="form-label mb-1">Patient</label>
+                <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Patient" filedName="name" fieldId="id" (selectedvalue)=onPat($event)  [options]="patientoptions" [filteredOptions]="patientfilteredOptions" ></app-searchdropdownconcomponent>
+            </div> 
+            <div class="col-md-2 mb-2">
+                <label class="form-label mb-1">Order By</label>            
+                    <select class="form-select py-1 me-2 textbox"  (change)=ordBydd($event);>
+                    <option value="All">All</option>
+                        <option value="{{ordby.Name}}" *ngFor="let ordby of orderByDD" >{{ordby.Name}}</option>         
+                    </select> 
+            </div>                                 
+            <div class="col-md-2 mb-2">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div> -->
+    <div class="row" *ngIf="paylistloading">    
+        <app-paymanagementloadercomponents></app-paymanagementloadercomponents> 
+    </div>
+    <div class="row" *ngIf="!paylistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">            
+            <div class="table-responsive">
+                <table class="table data-list mb-0">                  
+                      <tr>   
+                        <th class="text-nowrap">Practitioner</th> 
+                        <th class="text-nowrap">Practitioner Category</th>                                                                                                   
+                        <th>Order Amount</th>
+                        <th>Practitioner Remuneration (Payable)</th>                        
+                      </tr>                                        
+                        <tr *ngFor="let tr of paylist | searchFilter:searchString1">                                                                                   
+                            <td class="text-nowrap"><a routerLink="{{payoutdetailsurl}}/{{tr.practionerId}}">{{tr.practionerName}}</a></td>
+                            <td class="text-nowrap">{{tr.practionerCategory}}</td>
+                            
+                            <td>{{tr.orderAmount}}</td>
+                            <td>{{tr.commisionAmount}}</td>                                                                                                             
+                        </tr>                    
+                </table>         
+        </div>    
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!paylistloading && paylist.length == 0"></app-datanotfound>
+</main>

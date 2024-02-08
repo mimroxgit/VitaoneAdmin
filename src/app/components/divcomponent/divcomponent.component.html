@@ -1,0 +1,82 @@
+<div class="" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50"(scrolled)="scroll()">
+        
+    <div class="card p-3" *ngFor="let i of tableData | searchFilter:searchString" >
+      <div class="d-md-flex align-items-center items-block" >
+        <div class="flex-shrink-0">
+          <img src="{{imagepath}}/{{i.image}}" class="img-fluid mb-md-0 mb-2" alt="...">
+         
+        </div>   
+        <div class="flex-grow-1 ms-md-3" *ngFor="let head of tableList">
+          <div class="d-md-flex justify-content-between align-items-center mb-1" >
+              <h6 class="fw-bold mb-1" >{{i[head]}}</h6>
+              <span class="badge bg-theme2 rounded-pill fw-normal" *ngIf="i[statusdisplayname] == true">Active</span>
+              <span class="badge badge-deactive rounded-pill fw-normal text-danger" *ngIf="i[statusdisplayname] == false" >deactive</span>
+          </div>  
+           <div class="d-md-flex justify-content-between" >
+               
+              <div class="text-md-end">
+                 <p class="mb-1 text-secondary small">{{i[head]}}</p>
+                  <p class="mb-1 text-secondary small">{{i[head]}}</p>
+                  <div class="mt-4 d-flex gap-2 justify-content-end">                       
+                      <a *ngIf="isedit" (click)="edit(i)" class="btn btn-sm border text-primary"><i class="bi bi-pencil"></i></a>
+                      <a (click)="detail(i)" class="btn btn-sm border text-theme2"><i class="bi bi-eye"></i></a>
+                      <a *ngIf="isdelete" href="#DeleteModal" (click)="setModalpopup(i)" class="btn btn-sm border text-danger" data-bs-toggle="modal"><i class="bi bi-trash"></i></a>                                                
+                  </div>
+              </div>
+          </div>      
+      </div>     
+      </div>
+      <!-- <div class="d-md-flex align-items-center items-block" >
+          <div class="flex-shrink-0">
+            <img src="{{imagepath}}/{{i.image}}" class="img-fluid mb-md-0 mb-2" alt="...">
+           
+          </div>
+          <div class="flex-grow-1 ms-md-3">
+              <div class="d-md-flex justify-content-between align-items-center mb-1">
+                  <h6 class="fw-bold mb-1">{{i.name}}</h6>
+                  <span class="badge bg-theme2 rounded-pill fw-normal" *ngIf="i.status == true">Active</span>
+                  <span class="badge badge-deactive rounded-pill fw-normal text-danger" *ngIf="i.status == false">deactive</span>
+              </div>  
+              <div class="d-md-flex justify-content-between">
+                  <div>                   
+                      <p class="small mt-2 mb-2">Categories : <span class="badge bg-silver rounded-pill fw-normal text-dark me-2" style="font-size: 11px;" *ngFor="let c of i.categoryNames">{{c}}</span></p>
+                      <p class="small mb-2">Sub Categories :  <span class="badge bg-silver rounded-pill fw-normal text-dark me-2" style="font-size: 11px;" *ngFor="let s of i.subCategoryNames">{{s}}</span></p>                     
+                      <p class="small mb-0">Practitioner Categories : <span class="badge bg-silver rounded-pill fw-normal text-dark me-2" style="font-size: 11px;" *ngFor="let prs of i.practitionerCategoryNames">{{prs}}</span></p>
+                  </div>  
+                  <div class="text-md-end">
+                      <p class="mb-1 text-secondary small">HSN Code : {{i.hsnCode}}</p>
+                      <p class="mb-1 text-secondary small">SAC Code : {{i.sacCode}}</p>
+                      <div class="mt-4 d-flex gap-2 justify-content-end">                       
+                          <a *ngIf="isedit" (click)="edit(i)" class="btn btn-sm border text-primary"><i class="bi bi-pencil"></i></a>
+                          <a (click)="detail(i)" class="btn btn-sm border text-theme2"><i class="bi bi-eye"></i></a>
+                          <a *ngIf="isdelete" href="#DeleteModal" (click)="setModalpopup(i)" class="btn btn-sm border text-danger" data-bs-toggle="modal"><i class="bi bi-trash"></i></a>                                                
+                      </div>
+                  </div>
+              </div>                   
+          </div>
+        </div> -->
+  </div>
+  
+  
+  <div class="modal fade" tabindex="-1" id="DeleteModal">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header border-0">         
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body text-center">
+              <img src="/assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-2" width="70">
+              <b>Delete Record of <b class="text-theme">{{Item?Item.name:""}}</b></b>
+              <p class="small text-secondary">Are you sure you want to delete this record ?</p>
+  
+              <button (click)="delete(Item)"  data-bs-dismiss="modal" class="btn btn-danger">OK</button>
+          </div>       
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="isloder">
+    <div  *ngFor="let items of loderarry">
+      <app-itemslistloader></app-itemslistloader>
+    </div>
+  </div>

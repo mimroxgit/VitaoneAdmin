@@ -1,0 +1,27 @@
+<main class="main" id="main">    
+    <div class="card p-3">
+        <app-pagetitle pagetitle="Edit Module"></app-pagetitle>
+        <form #form="ngForm" class="row mt-2">
+            <div class="col-md-12">                
+                <app-inputcontrol errmsg="{{titleMessage}}"  [(inputModel)]="mdlTitle" lblname="Title" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+            </div>                                                          
+            
+              <div class="col-md-12">
+              <app-labelcontrolconcomponent label="Description" [star]="true" *ngIf="Isshowlabeleditor"></app-labelcontrolconcomponent>
+              <app-htmleditorcontrolcomponent [htmlerrmsg]="message"  [(inputModel)]="mdlDescription" *ngIf="Isshoweditor"></app-htmleditorcontrolcomponent>
+             </div>  
+             <div class="col-md-3">
+                <app-toggleswitchcontrol [(inputModel)]="mdlActive"></app-toggleswitchcontrol>
+            </div>                         
+            <div class="col-md-12">
+                <span class="text-danger">{{mes}}</span>
+            </div>
+            <img *ngIf="loading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+            <div class="col-md-12 mt-2 text-end">    
+                
+                <app-buttoncontrolconcomponent routerLink="/{{modulelistUrl}}" btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3" btnname="Cancel"></app-buttoncontrolconcomponent>                
+                <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>                                     
+            </div>
+        </form>
+    </div>    
+</main>

@@ -1,0 +1,14 @@
+<div class="example-form {{exfrm}}" [formGroup]="formGroup">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Select {{dropdownTitile}}</mat-label>      
+     
+      <button class="btn-close" *ngIf="value"  matSuffix aria-label="Clear" (click)="clear()"  style="position: fixed;right:40px;top:17px" mat-button></button> 
+      <input formControlName="name"  matInput type="text" [matAutocomplete]="auto" [(ngModel)]="value" />
+      
+      <mat-autocomplete #auto="matAutocomplete">          
+        <mat-option *ngFor="let item of filteredOptions"  (click)="onchange(item)" [value]="item[filedName]" >
+          {{item[filedName]}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>    
+</div>

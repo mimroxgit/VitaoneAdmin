@@ -1,0 +1,7 @@
+.icon{    
+    -width: 45px;-height: 45px;
+    background-color: var(--primary-color);
+    color: #fff;font-size: 22px;
+    -bottom: 15px;
+    -right: 15px;
+}

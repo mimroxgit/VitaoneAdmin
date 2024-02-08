@@ -1,0 +1,14 @@
+.short-name{
+    outline:1px solid #f0f0f0;
+    outline-offset: 3px;
+    width: 45px;height: 45px;
+    border-radius: 50px;
+    display: flex;align-items: center;justify-content: center;
+    background-color: #f0f0f0;
+    flex-shrink: 0;margin-right: 10px;
+}
+
+.img{
+    width: 80px;
+    height: 80px;flex-shrink: 0;
+}

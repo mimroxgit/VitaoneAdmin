@@ -1,0 +1,4 @@
+<div class="form-check form-switch">
+    <input class="form-check-input" [(ngModel)]="inputModel" (ngModelChange)="checkActive($event)" type="checkbox" (click)="checkActive($event)" (checked)="checkActive($event)" id="flexSwitchCheckDefault" >
+    <label class="form-check-label" for="flexSwitchCheckDefault">{{lablActive}}</label>
+</div>

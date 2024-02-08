@@ -1,0 +1,67 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Patient Details"></app-pagetitle>
+            <a routerLink="{{seturl}}" class="btn btn-cancel">Back</a>
+        </div>
+    </div>   
+    <div class="card p-3" *ngIf="!patientloading">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+            <h5>{{patientlist.ptmName}}</h5>
+            <span class="small">Reg Date : {{patientlist.regDate |date:'dd/MM/yyyy'}}</span>
+        </div>
+        
+        <div class="d-flex gap-3">
+            <span *ngIf="patientlist.ptmContact != '-'"><i class="bi bi-telephone"></i> {{patientlist.ptmContact}}</span>
+            <span *ngIf="patientlist.ptmEmail != '-'"><i class="bi bi-envelope"></i> {{patientlist.ptmEmail}}</span>
+            <span *ngIf="patientlist.ptmAddress != '-'"><i class="bi bi-geo-alt"></i> {{patientlist.ptmAddress}}</span>
+        </div>
+        <img *ngIf="patientloading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+    </div> 
+    <app-orderlistloader *ngIf="patientloading"></app-orderlistloader>
+    <app-datanotfound *ngIf="!patientloading && patientlist.length == 0"></app-datanotfound>
+    <div class="card p-3">
+        
+        <div class="d-flex justify-content-between align-items-center gap-2 mt-md-0 mt-2">
+            <app-pagetitle pagetitle="orders"></app-pagetitle>
+            <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString"  type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+        </div> 
+        <app-prd-discount-detailloader *ngIf="patordloading"></app-prd-discount-detailloader>        
+        <div class="table-responsive mt-3"*ngIf="!patordloading" >
+            <table class="table data-list product-discount">
+                <tr>
+                    <th style="width:200px;padding-left: 25px;">
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">Date</label>
+                        </div>
+                    </th>
+                    <th>Order Id</th>
+                    <th>Total Price</th>
+                    <th>Status</th>                    
+                    <th class="text-end" >Action</th>                   
+                </tr>
+                <tr *ngFor="let itm of Patientsordlist| searchFilter:searchString">                    
+                    <td>
+                        <div class="form-check ps-2">
+                            <label class="form-check-label">                                
+                                {{itm.ormDate |date:'dd/MM/yyyy'}}
+                            </label>
+                        </div>
+                    </td>
+                    <td>{{itm.ormNo}}</td>
+                    <td>{{itm.ormPrice}}</td>                    
+                    <td><span class="badge {{itm.ormStatus | trim }} rounded-pill fw-normal">{{itm.ormStatus}}</span></td>
+                    
+                    <td class="text-end">
+                        <div class="d-flex gap-1 justify-content-end">
+                            <a  routerLink="{{orderdetailsurl}}/{{itm.id}}" class="btn border btn-sm text-primary shadow-sm py-1 me-1"><i class="bi bi-eye"></i></a>
+                        </div>
+                    </td>
+                </tr>    
+            </table>            
+        </div>
+       
+    </div>
+    <app-datanotfound *ngIf="!patordloading && Patientsordlist.length == 0"></app-datanotfound>
+   
+</main>

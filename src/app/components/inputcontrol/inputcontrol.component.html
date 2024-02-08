@@ -1,0 +1,7 @@
+<div class="{{inptclass}}">
+    <label class="form-label mb-1 {{newlbl}}">{{lblname}} <span class="text-danger" *ngIf="star">*</span></label>
+    <input type="{{type}}" class="form-control {{inputstyle}}" max="{{maxValue}}" min="{{minValue}}" placeholder="{{placeholder}}" [(ngModel)]="inputModel" (ngModelChange)="textChange()" value="{{value}}">    
+    <!-- <small class="text-danger">error !</small> -->
+    <span class="small text-danger">{{errmsg}}</span>
+</div>
+

@@ -1,0 +1,14 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-md-flex justify-content-between align-items-center">
+          <app-pagetitle pagetitle="Practitioner Groups"></app-pagetitle>
+            <div class="d-flex align-items-center gap-2 mt-md-0 mt-2">                     
+              <input (ngModelChange)=onchaneg($event) type="text" class="form-control search-input"  name="searchString" placeholder="Type to search..." [(ngModel)]="searchString1"/>             
+              <app-createicon  routerLink="{{Pragroupcreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>        
+    <app-pra-grouplistloader *ngIf="pragrouplistloading"></app-pra-grouplistloader>     
+    <app-table [isdetail]="true" [searchString]="searchString1" *ngIf="!pragrouplistloading" [tableList]="tableTdlist" [tableData]="pragrouplist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [defaultdisplayname]="defaultstatus" [displayhead]="tableThlist2"  (onedit)="editPraGroup($event)" (ondetail)="detailPraGroup($event)" (ondelete)="deleteGroup($event)" [Isshowdefault]="true" ></app-table>    
+    <app-datanotfound *ngIf="!pragrouplistloading && pragrouplist.length == 0"></app-datanotfound>
+</main>

@@ -1,0 +1,275 @@
+<main id="main" class="main">
+    <app-pagetitle pagetitle="Settings" class="p-1" ></app-pagetitle>
+    <!----------Start Web Settings----------->
+  <div class="card border-0">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0 text-theme2">Site Detail</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <app-inputcontrol errmsg="{{psdtitleMessage}}"  [(inputModel)]="psdTitle" lblname="Site Title" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+        </div>
+        <div class="col-md-4">
+          <app-inputcontrol errmsg="{{psdemailMessage}}"  [(inputModel)]="psdEmail" lblname="Email" type="Email"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+        </div>
+        <div class="col-md-4">
+          <app-inputcontrol errmsg="{{psdcontactMessage}}"  [(inputModel)]="psdContact" lblname="Contact" type="number"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+        </div>
+        <div class="col-md-12">
+          <app-labelcontrolconcomponent label="Logo" [star]="true"></app-labelcontrolconcomponent>
+          <div class="d-flex align-items-center">
+            <app-uploadcontrolconcomponent [imgDiv]="true" [imgshow]="true"  type="file" selimg="{{siteimageUrl}}" selectedFiles="sssmLogo" (selectedimage)=selectedfile($event)  class="FileUpload mb-1 flex-fill" uploadicon="uploadicon" ></app-uploadcontrolconcomponent>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <app-labelcontrolconcomponent label="Short Description" [star]="true"></app-labelcontrolconcomponent>
+          <app-textareacontrolcontrolcomponent areaerrmsg="{{psdshortdecMessage}}" [(inputModel)]="psdDesc" class="textarea"></app-textareacontrolcontrolcomponent>
+        </div>
+        <p class="text-danger text-center">{{sitemes}}</p>
+        <img *ngIf="siteloading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif"/>
+        <div class="col-md-12 text-end">
+          <app-buttoncontrolconcomponent [btndisable]="siteloading" (click)="onSitesetting(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+        </div>
+      </div>
+    </div>
+    <div class="loader-img-login">
+      <img *ngIf="getsiteloading" src="../assets/images/loadernew.gif" />
+    </div>
+  </div>
+<!----------End Site Settings----------->
+<!----------Start Site Banner----------->
+  <div class="card border-0">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0 text-theme2">Site Banner</h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2">
+          <app-inputcontrol  [star]="false"  [(inputModel)]="pbmSeqNo" lblname="SeqNo" type="number" inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+        </div>
+        <div class="col-md-2">
+          <app-labelcontrolconcomponent label="Type" class="mb-1" [star]="false"></app-labelcontrolconcomponent>
+          <select class="form-select mb-3 textbox" (change)=banVedDD($event);>            
+            <option *ngFor="let item of BVdropdown" value="{{item.Name}}">{{item.Name}}</option>
+          </select>
+        </div>
+        
+        <!-- <div class="col-md-8" *ngIf="isVideoHide">
+          <app-inputcontrol  [star]="false"  [(inputModel)]="pbmVideoUrl" lblname="Video Url" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+        </div> -->
+        <div class="col-md-12" *ngIf="isVideoHide">
+          <app-labelcontrolconcomponent label="Video" [star]="true"></app-labelcontrolconcomponent>
+          <div class="d-flex align-items-center">
+            <app-uploadcontrolconcomponent [imgDiv]="true" [imgshow]="false"  type="file" uploaderrmsg="{{bannerVideoMessage}}"  selectedFiles="sssmLogo" (selectedimage)=selectedVideo($event)  class="FileUpload mb-1 flex-fill" uploadicon="uploadicon" ></app-uploadcontrolconcomponent>
+          </div>
+        </div>
+      
+        <div class="col-md-8" *ngIf="!isVideoHide">
+            <div class="row">          
+              <div class="col-md-6">
+                <app-inputcontrol  [star]="false"  [(inputModel)]="pbmTitle" lblname="Title" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+              </div>
+              <div class="col-md-6">
+                <app-inputcontrol [star]="false" [(inputModel)]="pbmSubTitle" lblname="Sub Title" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+              </div>        
+          </div>          
+        </div>
+
+        <div class="col-md-12" *ngIf="!isVideoHide">
+          <div class="row">
+            <div class="col-md-2">
+              <app-labelcontrolconcomponent label="Type" class="mb-1" [star]="false"></app-labelcontrolconcomponent>
+              <select class="form-select mb-3 textbox" (change)=typeDD($event);>            
+                <option *ngFor="let ite of pbmTypedropdown" value="{{ite.Name}}">{{ite.Name}}</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <app-labelcontrolconcomponent label="Alignment" class="mb-1" [star]="false"></app-labelcontrolconcomponent>
+              <select class="form-select mb-3 textbox" (change)=bannerDD($event);>            
+                <option *ngFor="let item of bannerdropdown" value="{{item.Name}}">{{item.Name}}</option>
+              </select>
+            </div> 
+            <div class="col-md-2 mt-md-4 mt-3">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" (click)="isbannerButton($event)" [checked]="pbmIsButton==true" id="flexCheckDefault">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Show Button
+                </label>
+              </div>       
+            </div>
+            <div class="col-md-2" *ngIf="pbmIsButton == true">
+              <app-inputcontrol [star]="false"  [(inputModel)]="pbmButtonText" lblname="Button Text" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-4" *ngIf="pbmIsButton == true">
+              <app-inputcontrol [star]="false"  [(inputModel)]="pbmButtonLink" lblname="Button Link" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-12">
+              <app-labelcontrolconcomponent label="Site Banner" [star]="true"></app-labelcontrolconcomponent>
+              <div class="d-flex align-items-center">
+                <app-uploadcontrolconcomponent [imgoverlay]="false" [imgshow]="imgtrue"  uploaderrmsg="{{bannerImageMessage}}"   type="file" selimg="{{sitebannerimageUrl}}" selectedFiles="sssmLogo" (selectedimage)=bannerfile($event)  class="FileUpload mb-1 flex-fill" uploadicon="uploadicon" ></app-uploadcontrolconcomponent>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+
+        <p class="text-danger text-center">{{siteBannermes}}</p>
+        <img *ngIf="siteBannerloading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif"/>
+        <div class="col-md-12 text-end">
+          <app-buttoncontrolconcomponent [btndisable]="siteBannerloading" (click)="onSiteBanner(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+        </div>
+      </div>
+    </div>
+  </div>
+<!----------Site Banner----------->
+  <div class="card border-0">
+    <div class="card-header bg-white py-3">
+      <h5 class="mb-0 text-theme2">Site Banner</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+      <table class="table data-list">       
+          <tr>
+            <th>SeqNo</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Sub Title</th>
+            <th class="text-nowrap">File Type</th>      
+            <th>Type</th>            
+            <th class="text-nowrap">Button text</th>
+            <th>Button link</th>
+            <th class="text-end" >Action</th>
+          </tr>
+       
+          <tr *ngFor="let item of siteBannerlist"> 
+            <td>{{item.pbmSeqNo}}</td>           
+            <td>
+              <img *ngIf="item.pbmBannerType!='Video'" src="{{imgeUrl}}/{{item.pbmImage}}" class="img-thumbnail" style="width: 80px;height: 50px;object-fit: fill;">
+              <img *ngIf="item.pbmBannerType=='Video'" src="/assets/images/video_thumb.png" class="img-thumbnail" style="width: 80px;height: 50px;object-fit: fill;">
+              </td>
+              <td>{{item.pbmTitle}}</td>
+              <td>{{item.pbmSubTitle}}</td>
+              <td>{{item.pbmBannerType}}</td>
+              <td>{{item.pbmType}}</td>
+              <td>{{item.pbmButtonText}}</td>
+              <td>{{item.pbmButtonLink}}</td>
+            <td class="text-end">
+              <button type="button" (click)="deleteSiteBanner(item)" routerLink="{{item.id}}" class="btn border btn-sm text-danger" data-bs-toggle="modal" data-bs-target="#delete"><i class="bi bi-trash"></i></button>
+            </td>
+          </tr>       
+      </table>
+    </div>
+    </div>
+    <div class="loader-img-login">
+      <img *ngIf="getsiteBannerloading" src="../assets/images/loadernew.gif" />
+    </div>
+    <div class="text-center mb-3"  *ngIf="!getsiteBannerloading && siteBannerlist.length == 0">
+      <p class="text-dange h4 text-danger">Data not found</p>
+    </div>    
+  </div>
+  <div class="modal fade" id="delete">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header border-0">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <img src="../assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-3" style="width: 100px;height: 100px;object-fit: contain;">
+          <p class="text-center text-secondary small">Are you sure you want to delete this record ?</p>
+        </div>
+        <div class="modal-footer justify-content-center border-0 pt-0">
+          <button type="button" (click)="deletebanner()"  data-bs-dismiss="modal"  class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<!----------End Site Banner----------->
+<!----------Start Social Media Platform----------->
+<form #form="ngForm" class="card border-0">
+  <div class="card-header bg-white py-3">
+    <h5 class="mb-0 text-theme2">Social Media Platform</h5>
+  </div>
+  <div class="card-body">
+    <div class="row align-items-start">
+      <div class="col-md-4">
+        <app-labelcontrolconcomponent label="Social Platform" class="mb-1" [star]="true"></app-labelcontrolconcomponent>
+        <select class="form-select mb-3 textbox" (change)=platformDD($event);>
+          <option value="-" selected>Select any Platform</option>
+          <option *ngFor="let item of smpdropdown" value="{{item}}">{{item}}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <app-inputcontrol errmsg="{{linkMessage}}"  [(inputModel)]="psmLink" lblname="Link" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>        
+      </div>
+      <img *ngIf="socialoading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif"/>
+      <div class="col-md-2  text-end pt-3">
+        <app-buttoncontrolconcomponent [btndisable]="socialoading" (click)="onSocialmp(form)"  btnstyle="bg-theme2 mt-2 border-0 py-2 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+      </div>     
+      <p class="text-danger text-center">{{socialmes}}</p>
+    </div>
+  </div>
+</form>
+
+<!----------Social Media Platform----------->
+<div class="card border-0">
+  <div class="card-header bg-white py-3">
+    <h5 class="mb-0 text-theme2">Social Media Platform</h5>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Platform</th>
+          <th>Link</th>
+          <th>Active</th>
+          <th class="text-end">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of socialmedialist">
+          <td>{{ item.psmPlatform }}</td>
+          <td>{{ item.psmLink }}</td>
+          <td>
+            <div>
+              <span class="badge text-dark fw-normal rounded-pill badge-active" *ngIf="item.psmIsActive == true">Active</span>
+              <span class="badge text-dark fw-normal rounded-pill badge-deactive" *ngIf="item.psmIsActive == false">Deactive</span>
+            </div>
+          </td>
+          <td class="text-end">
+            <!-- <button type="button" routerLink="{{item.id}}" class="btn bg-theme text-white btn-sm me-1" data-bs-toggle="modal" data-bs-target="#edit"><i class="bi bi-pencil"></i></button> -->
+            <button type="button" (click)="deletePlatform(item)" routerLink="{{item.id}}" class="btn border text-danger btn-sm" data-bs-toggle="modal" data-bs-target="#delete1"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="text-center"  *ngIf="!getsocialoading && socialmedialist.length == 0">
+      <p class="text-dange h4 text-danger">Data not found</p>
+    </div>
+  </div>
+  <div class="loader-img-login">
+    <img *ngIf="getsocialoading" src="../assets/images/loadernew.gif" />
+  </div>
+</div>
+<div class="modal fade" id="delete1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="../assets/images/icon/trash.png" class="img-fluid d-block mx-auto mb-3" style="width: 100px;height: 100px;object-fit: contain;">
+        <h5 class="text-center fw-600">Delete Record of {{platformName}}</h5>
+        <p class="text-center text-secondary small">Are you sure you want to delete this record ?</p>
+      </div>
+      <div class="modal-footer justify-content-center border-0 pt-0">
+        <button type="button" (click)="deletessm()"  data-bs-dismiss="modal"  class="btn btn-danger">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--------End Modal--------->
+</main>

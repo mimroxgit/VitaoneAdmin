@@ -1,0 +1,237 @@
+<main class="main" id="main" *ngIf="!loading">
+    <div class="card p-3" >
+        <div class="d-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Order Id: {{orderNo}}"></app-pagetitle>
+            <div class="mt-md-0 mt-2">
+              <button class="btn btn-theme text-white me-3" (click)="pdf()" >
+                <span *ngIf="!pdfloading">Print</span>
+                <img *ngIf="pdfloading" width="25" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+              </button>
+              <a routerLink="{{ordersListurl}}" class="btn btn-cancel">Back</a>
+            </div>            
+        </div>
+    </div>
+    <div class="card p-3">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-md-4">
+            <div class="d-flex align-items-center mb-md-0 mb-3">
+                <div class="short-name">{{shortName}}</div>
+                <div>
+                    <h5 class="mb-0">{{ordDetails.name}}</h5>
+                    <span class="small text-secondary">{{ordDetails.orderDate}}</span>
+                </div>
+            </div>
+            <div class="mb-md-0 mb-3">
+              <a  target="_blank" href="{{ 'https://api.whatsapp.com/send?phone=' +ordDetails.contact+'&text='+ordDetails.waMsg}}" class="btn btn-sm text-success py-1 me-1 rounded"><i class="bi bi-whatsapp"></i> SMS by Whatsapp</a> 
+              <span class="badge {{ordDetails.status | trim }} rounded-pill fw-normal text-white">{{ordDetails.status}}</span>                                      
+          </div>
+        </div>
+
+        <div class="mb-4 text-md-end status-payment">
+            <span class="rounded-pill border p-2 me-md-2 px-3">Payment Status : <b class="text-theme fw-bold">{{ordDetails.paymentStatus}}</b></span>
+            <span class="rounded-pill border p-2 px-3">Payment Mode : <b class="text-theme fw-bold">{{ordDetails.paymentMethod}}</b></span>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card bg-light shadow-none p-md-3 p-2">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <b>Billing address : </b>
+                    <a class="text-primary" (click)="setType('Billing')" data-bs-target="#paddEdit" data-bs-toggle="modal"  ><i class="bi bi-pencil-square"></i> Edit</a>
+                  </div>                    
+                    <p class="text-dark  mb-0 mt-2">{{ordDetails.billingAddress.split("||")[0]}}</p>
+                    <p class="text-secondary small mb-0 mt-1">{{ordDetails.billingAddress.split("||")[1]}}</p>
+                </div>                
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-light shadow-none p-md-3 p-2">   
+                  <div class="d-flex justify-content-between align-items-center">             
+                    <b>Shipping address : </b>
+                    <a class="text-primary" (click)="setType('Shipping')" data-bs-target="#paddEdit" data-bs-toggle="modal" ><i class="bi bi-pencil-square"></i> Edit</a>
+                  </div>  
+                    <p class="text-dark  mb-0 mt-2">{{ordDetails.shippingAddress.split("||")[0]}}</p>
+                    <p class="text-secondary small mb-0 mt-1">{{ordDetails.shippingAddress.split("||")[1]}}</p>
+                </div>                
+            </div>
+        </div>   
+        
+          <!----------Start Show Courier Company info----------->    
+          <div class="border p-3 rounded" *ngIf="ordDetails.orderDispatchInformation != null">
+            <h5 class="mb-3">Courier Company Information</h5>
+            <hr style="background-color: #ddd;">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                <h6 class="mb-0 fw-bold">{{ordDetails.orderDispatchInformation.odiCompany}}</h6>                
+                <span class="badge bg-success rounded-pill text-white fw-normal" *ngIf="ordDetails.orderDispatchInformation.odiDocketNo != null">Docket no : {{ordDetails.orderDispatchInformation.odiDocketNo}}</span>               
+            </div>       
+            <span><a target="_blank" href="{{ordDetails.orderDispatchInformation.odiTrackingUrl}}">{{ordDetails.orderDispatchInformation.odiTrackingUrl}}</a></span>     
+            <p class="text-secondary" *ngIf="ordDetails.orderDispatchInformation.odiRemark != null">
+              <b>Remark : </b>{{ordDetails.orderDispatchInformation.odiRemark}}
+            </p>    
+        </div>
+          <!----------Start Show Courier Company info-----------> 
+    </div>  
+
+        <div class="row mb-3">
+            <div class="col-md-7 mb-md-0 mb-2">
+                <div class="card p-3 h-100">
+                    <div class="d-flex align-items-center border-bottom py-2" *ngFor="let itm of orditem">
+                        <div class="img me-2">
+                            <img src="{{imageUrl}}/{{itm.productImage}}" class="img-fluid img-thumbnail">
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="fw-bold mb-1">{{itm.productName}}</h6>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <p class="mb-0">{{currency}} {{itm.productPrice}}</p>
+                                <span class="bg-light rounded-pill px-2">Qty : {{itm.itemQty}}</span>
+                            </div>                            
+                        </div>                        
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-md-5" style="position: sticky;top: 30px;">
+                <div class="card bg-white p-md-3 p-3 mb-0">
+                    <h6 class="mb-0 fw-bold">Order Summary</h6>                    
+                    <hr style="background-color: rgb(209, 201, 201);">
+                    <p class="text-dark">Amount <span class="float-end small"><b class="text-dark">{{currency}}
+                                {{ttprice}}</b></span></p>           
+                    <p class="text-dark" *ngIf="deliveryCharge !=0">Delivery Charge <span
+                            class="float-end"><b>{{currency}} {{deliveryCharge}}</b></span></p>
+                    <p class="text-dark" *ngIf="deliveryCharge ==0">Delivery Charge <span class="float-end"><b
+                                class="text-success">Free</b></span></p>
+                                
+                    <p class="text-dark">Additional Discount                      
+                      <span class="float-end"><b class="text-success">- {{currency}} {{additionalDiscountAmount}}</b></span>
+                    </p>
+                    <p class="text-dark">Discount
+                      <span *ngIf="ordDetails.couponCodeType=='Percentage'">({{ordDetails.couponCodeValue}} %)</span>
+                      <span *ngIf="ordDetails.couponCodeType=='Amount'">({{ordDetails.couponCodeValue}} Rs)</span>                    
+                      <span class="float-end"><b class="text-success">- {{currency}} {{discountAmount}}</b></span></p>
+                    <p class="text-dark" *ngIf="ordDetails.couponCode != null && ordDetails.couponCode != '-'">Used Coupon Code : <span class=""><b class="text-success">{{ordDetails.couponCode}}</b></span></p>                   
+                    <hr style="background-color: rgb(209, 201, 201);margin: 2px 0;">
+                    <div class="card-footer border-0 bg-white px-0">                        
+                        <h6 class="fw-bold mb-0 text-dark">Total amount <span class="float-end">{{currency}} {{ttprice + deliveryCharge - discountAmount - additionalDiscountAmount}}</span></h6>
+                    </div>        
+                </div>                
+            </div>
+        </div>                 
+        <div class="card bg-white p-md-3 p-3" *ngIf="trnlist.id != null">
+          <h6 class="mb-0 fw-bold">Transaction Detail</h6>                    
+          <hr style="background-color: rgb(209, 201, 201);">
+          <p class="text-dark">Order Id <span class="float-end"><b class="text-dark">{{trnlist.invOrderId}}</b></span></p>           
+          <p class="text-dark" >Payment Id<span
+                  class="float-end"><b>{{trnlist.invPaymentId}}</b></span></p>
+          <p class="text-dark">Method <span class="float-end"><b
+                      class="text-primary">{{trnlist.invMethod}}</b></span></p>
+                      
+          <p class="text-dark">Status
+            <span class="float-end" *ngIf="trnlist.invStatus == 'Success'"><b class="text-success">{{trnlist.invStatus}}</b></span>
+            <span class="float-end" *ngIf="trnlist.invStatus != 'Success'"><b class="text-danger">{{trnlist.invStatus}}</b></span>
+          </p>
+          <p *ngIf="ordDetails.ormInitiateRemark != null && ordDetails.ormInitiateRemark != '-'">{{ordDetails.ormInitiateRemark}}</p>
+      </div>
+
+      
+        <!----------Start Order Status update----------->
+    <form #form="ngForm" class="card border-0 p-3">
+        <div class="row">
+          <div class="col-md-4 mb-2">
+            <app-labelcontrolconcomponent label="Order Status"></app-labelcontrolconcomponent>
+            <div class="d-flex align-items-stretch mt-1">
+              <select class="form-select textbox" (change)="ordstatusDD($event)">
+                <option value="{{ status.Name }}" *ngFor="let status of orderStatusDD"
+                  [selected]="status.Name == ormStatus">
+                  {{ status.Name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 mb-2">
+            <app-labelcontrolconcomponent label="Payment Status"></app-labelcontrolconcomponent>
+            <div class="d-flex align-items-stretch mt-1">
+              <select class="form-select me-2 textbox" (change)="pymtstatusDD($event)">
+                <option value="{{ status1.Name }}" *ngFor="let status1 of orderpymtStatusDD"
+                  [selected]="status1.Name == paymentStatus">
+                  {{ status1.Name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 mb-2">
+            <app-labelcontrolconcomponent label="Payment Gateway Status"></app-labelcontrolconcomponent>
+            <div class="d-flex align-items-stretch mt-1">
+              <select class="form-select me-2 textbox" (change)="pymtstatusgatewayDD($event)">
+                <option value="{{ status2.Name }}" *ngFor="let status2 of orderpymtGatewayDD"
+                  [selected]="status2.Name == paymentGatewayStatus">
+                  {{ status2.Name }}
+                </option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="col-md-12">
+            <app-inputcontrol [star]="false" [(inputModel)]="remark" lblname="Remarks" type="text"   inptclass="mb-2"  inputstyle="textbox"></app-inputcontrol>           
+          </div>
+         
+        </div>
+        <div class="row" *ngIf="status == 'Dispatch'">
+          <div class="col-md-4 mb-2">
+            <app-labelcontrolconcomponent label="Courier Company Name" [star]="true"></app-labelcontrolconcomponent>
+            <div class="d-flex align-items-stretch mt-1">
+              <select class="form-select textbox" (change)="onchange($event)">
+                <option value="-" selected>Select Courier Company</option>
+                <option [selected]="cour.ccmTitle == odiCompanyId" value="{{cour.ccmTitle}},{{cour.ccmUrl}}" *ngFor="let cour of courierlist">{{cour.ccmTitle}}</option>
+              </select>
+              <span class="small text-danger">{{courierdropdownMessage}}</span>
+            </div>
+          </div>
+            <!-- <div class="col-md-4 mb-2">
+                <app-cataloguedropdowncontrolconcomponent DDerrmsg="{{courierdropdownMessage}}" lblname="Courier Company Name " dropdowntitle="Courier Company" selectstyle="textbox" (selectedvalue)=onchange($event) defaultValue="catalogueId" [categories]="courierlist" filedName="ccmTitle"  fieldId="id"class="bg-white bg-none"  *ngIf="Isshowselectbox"></app-cataloguedropdowncontrolconcomponent>                                                         
+            </div>             -->
+            <div class="col-md-4">
+                <app-inputcontrol [star]="true" errmsg="{{DocketNoMessage}}"  [(inputModel)]="odiDocketNo" lblname="Docket Number" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>           
+              </div>
+              <div class="col-md-4">
+                <app-inputcontrol [star]="true" errmsg="{{TrackingUrlMessage}}" [(inputModel)]="odiTrackingUrl" lblname="Tracking URL" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>           
+              </div>
+            <div class="col-md-12">
+              <app-inputcontrol [star]="false" [(inputModel)]="odiRemark" lblname="Remarks" type="text"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>           
+            </div>           
+          </div>
+          <div class="col-md-12 text-end">            
+            <app-buttoncontrolconcomponent [btndisable]="statusloading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+          </div>
+      </form>
+      <!----------End Order Status update----------->           
+</main>
+
+
+<app-orderdetailsloader *ngIf="loading"></app-orderdetailsloader>
+
+<!------------------Start Edit patient address model pop------------------>
+<div class="modal fade" id="paddEdit">
+  <div class="modal-dialog  modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h6 class="mb-0 fw-bold">Update Address</h6>
+              <button class="btn-close border rounded-circle" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <app-inputcontrol type="text" lblname="Name" errmsg="{{camnameMessage}}" [(inputModel)]="camName" newlbl="label-title" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+              </div>
+              <div class="col-md-6">
+                  <app-inputcontrol type="number"  lblname="Phone Number" errmsg="{{camphoneMessage}}" [(inputModel)]="camPhone" value="1234567890" newlbl="label-title" inptclass="mb-3" inputstyle="textbox"></app-inputcontrol>
+              </div>
+              <div class="col-md-12">
+                <app-labelcontrolconcomponent label="Address"></app-labelcontrolconcomponent>
+                <app-textareacontrolcontrolcomponent areaerrmsg="{{camaddress1Message}}" [(inputModel)]="camAddress1" class="textarea metaDescText mt-1 rounded-0"></app-textareacontrolcontrolcomponent>
+            </div>
+            <div class="col-md-12 text-end pb-3">
+              <button data-bs-dismiss="modal" [disabled]="loading" (click)="patientaddEdit()"  class="btn btn-theme text-white mt-md-3 mt-0 save-btn mx-auto">Save</button>
+            </div>
+          </div>                         
+          </div>
+      </div>
+  </div>
+</div>
+<!------------------End Edit patient address model pop------------------>

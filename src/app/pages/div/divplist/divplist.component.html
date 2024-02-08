@@ -1,0 +1,35 @@
+<main class="main" id="main">
+    <div class="card p-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Items"></app-pagetitle>    
+            <div class="d-flex align-items-center gap-2">            
+                <app-createicon  routerLink="{{itemscreateurl}}"></app-createicon>
+            </div>
+        </div>
+    </div>
+    <div class="row align-items-end mb-3">                
+        <div class="col-md-3 mb-md-0 mb-2">
+            <!-- <label class="form-label">Category</label> -->
+            <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Category" filedName="name" fieldId="id" (selectedvalue)=oncat($event)  [options]="catoptions" [filteredOptions]="catfilteredOptions" ></app-searchdropdownconcomponent>
+        </div>
+        <div class="col-md-3 mb-md-0 mb-2">
+            <!-- <label class="form-label">Sub Category</label> -->
+            <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Sub Category" filedName="name" fieldId="id" (selectedvalue)=onsubcat($event)  [options]="subcatoptions" [filteredOptions]="subcatfilteredOptions" ></app-searchdropdownconcomponent>
+        </div>
+        <div class="col-md-3 mb-md-0 mb-2">
+            <!-- <label class="form-label">Practitioner Category</label> -->
+            <app-searchdropdownconcomponent exfrm="serchdd" dropdownTitile="Practitioner Category" filedName="name" fieldId="id" (selectedvalue)=onpracat($event)  [options]="pracatoptions" [filteredOptions]="pracatfilteredOptions" ></app-searchdropdownconcomponent>
+        </div>
+        <div class="col-md-2 mb-md-0">
+            <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1"  type="text" class="form-control search-input" placeholder="Search..." style="height: 40px;">
+        </div>
+        <div class="col-md-1">             
+            <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3 my-md-0 my-3" style="padding: 7px;"><i class="bi bi-search"></i></button>   
+        </div>       
+    </div>
+    <!-- <app-itemlist [searchString]="searchString1"  [isloder]="itemslistloading" [imagepath]="imgeUrl"  [item]="itemslist" (onscroll)="onScroll()" (onedit)="editItem($event)"  (ondetail)="detailItem($event)" (ondelete)="deleteItem($event)"></app-itemlist>     -->
+    <app-divcomponent [tableList]="tableTdlist" [tableData]="itemslist" [displayhead]="tableThlist2" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName"  [searchString]="searchString1"   [isloder]="itemslistloading" [imagepath]="imgeUrl"   (onscroll)="onScroll()" (onedit)="editItem($event)"  (ondetail)="detailItem($event)" (ondelete)="deleteItem($event)"></app-divcomponent>    
+
+     <!--  <app-table [searchString]="searchString1"  [tableList]="tableTdlist" [tableData]="Couponlist" [Modaldisplayname]="fieldName" [statusdisplayname]="statusName" [displayhead]="tableThlist2" (onedit)="editcoupon($event)" (ondelete)="deletecoupon($event)"  ></app-table>     -->
+    <app-datanotfound *ngIf="!itemslistloading && itemslist.length == 0"></app-datanotfound>    
+</main>

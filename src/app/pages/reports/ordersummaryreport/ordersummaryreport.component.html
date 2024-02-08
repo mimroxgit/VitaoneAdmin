@@ -1,0 +1,221 @@
+<main id="main" class="main">
+    <div class="card p-3">
+        <div class="d-md-flex flex-wrap justify-content-between align-items-center">
+            <app-pagetitle pagetitle="Order Summary Report"></app-pagetitle>  
+            <div class="d-md-flex align-items-center gap-2 mt-md-0 mt-2">
+                <input (ngModelChange)=onchaneg($event) [(ngModel)]="searchString1" type="text" class="form-control search-input" placeholder="Search..." style="max-width:500px;width: 100%;">                
+                <div class="text-end flex-grow-1">
+                    <button class="btn btn-outline-success btn-sm py-2 mt-md-0 mt-3" style="width: max-content;" (click)="xls()" >
+                      <span *ngIf="!xlsloading">&nbsp;<img src="/assets/images/excel.png" width="18"> Download Order Summary Report</span>
+                      <img *ngIf="xlsloading" width="25" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+                    </button>
+                  </div>
+            </div>           
+        </div>
+    </div>
+    
+    <div class="card p-3">
+        <div class="row align-items-end">
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="fromDate" [star]="false" lblname="From Date" type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>
+            <div class="col-md-3 mb-2">
+                <app-inputcontrol  [(inputModel)]="toDate" [star]="false"  lblname="To Date"  type="date" inputstyle="textbox"></app-inputcontrol>      
+            </div>                                                       
+            <div class="col-md-1 mb-2">             
+                <button name="search"  (click)="onsearch()" class="btn btn-secondary text-white rounded-3 px-3" style="padding: 8px;"><i class="bi bi-search"></i></button>   
+            </div>               
+        </div>
+    </div>
+    
+    <div class="row" *ngIf="prdsalesreplistloading">    
+        <div class="">     
+            <div class="card border-0 p-3">
+                <table class="table data-list mb-0">
+                    <thead>
+                      <tr>                           
+                        <th>Order Status</th>                
+                        <th>Orders<br>(by COD)</th>                        
+                        <th>Orders<br>(by Online Payment)</th>
+                        <th>Total Orders</th>
+                        <th>COD Amount</th>
+                        <th>Online Amount</th>
+                        <th>Total</th>    
+                      </tr>
+                    </thead>
+                    <tbody>
+                        <tr>                            
+                            <td style="">
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'100px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader>  
+                            </td>
+                            <td class="text-theme">
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'120px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader>  
+                            </td>
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                                         
+                          </tr> <tr>                            
+                            <td style="">
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'100px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader>  
+                            </td>
+                            <td class="text-theme">
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'120px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader>  
+                            </td>
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                            <td>
+                              <ngx-skeleton-loader count="1" appearance="line"
+                                  animation="progress-dark"
+                                  [theme]="{
+                                  width:'70px',
+                                  height:'20px'
+                                  }">
+                              </ngx-skeleton-loader> 
+                            </td> 
+                                         
+                          </tr>
+                    </tbody>
+                  </table>
+            </div>                            
+          
+          </div>
+          
+    </div>
+    <div class="row" *ngIf="!prdsalesreplistloading">
+        <div class="col-md-12 {{class}}">
+            <div class="card p-3 border-0">            
+            <div class="table-responsive">
+                <table class="table data-list mb-0" id="excel-table">                  
+                      <tr>                           
+                        <th>Order Status</th>                
+                        <th>Orders<br>(by COD)</th>                        
+                        <th>Orders<br>(by Online Payment)</th>
+                        <th>Total Orders</th>
+                        <th>COD Amount</th>
+                        <th>Online Amount</th>
+                        <th>Total</th>                       
+                      </tr>                                        
+                        <tr *ngFor="let item of prdsalesreplist | searchFilter:searchString1">
+                            <td>{{item.status}}</td>
+                            <td>{{item.totalCod}}</td>                            
+                            <td>{{item.totalOnline}}</td>
+                            <td>{{item.totalOrder}}</td>
+                            <td>{{item.codAmount}}</td>
+                            <td>{{item.onlineAmount}}</td>
+                            <td>{{item.totalAmount}}</td>
+                        </tr>    
+                        <tr class="bg-light">
+                            <td colspan="3" class="border-0"><b class="text-dark">Total</b></td>
+                            <td class="px-0 border-0"><b class="text-dark">{{totalOrder}}</b></td>
+                            <td class="px-0 border-0"><b class="text-dark">{{totalCodAmount}}</b></td>
+                            <td class="px-0 border-0"><b class="text-dark">{{totalOnlineAmount}}</b></td>
+                            <td class="px-0 border-0"><b class="text-dark">{{totalAmount}}</b></td>
+                        </tr>                
+                </table>                    
+        </div>          
+    </div>
+    </div>
+    </div>
+    <app-datanotfound *ngIf="!prdsalesreplistloading && prdsalesreplist.length == 0"></app-datanotfound>
+</main>

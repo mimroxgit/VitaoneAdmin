@@ -1,0 +1,15 @@
+<div class="{{inptclass}} position-relative">
+    <label class="form-label mb-1">{{lblname}} <span class="text-danger">*</span></label>
+    <input type="{{type}}" class="form-control {{inputstyle}} {{selectstyle}}" placeholder="{{placeholder}}" value="{{value}}" [(ngModel)]="inputModel" (ngModelChange)="textChange()">    
+    <div class="dropdown dropdown-menu-end">
+        <button class="btn dropdown-toggle input-dropdown" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+            {{setValue}}
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+          <li><a class="dropdown-item" (click)="valuechange(item[filedName],item[fieldId])" *ngFor="let item of Unitlist"  >{{item[filedName]}}</a></li>        
+        </ul>
+    </div>    
+    <span class="small text-danger">{{DDerrmsg}}</span>
+</div>
+
+ 

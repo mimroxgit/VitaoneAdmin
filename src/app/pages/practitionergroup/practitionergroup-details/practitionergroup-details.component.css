@@ -1,0 +1,19 @@
+.loader-img{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.table > :not(:last-child) > :last-child > * {
+    border-bottom-color: #ece7e7;
+  }
+
+  .product-discount tr td:first-child{
+    padding-left: 25px;
+  }
+  .product-discount tr td{
+    padding-top: 0;padding-bottom: 0;
+  }
+  .product-discount .form-check-input{
+    width: 20px;height: 20px;margin-top: -1px;
+  }

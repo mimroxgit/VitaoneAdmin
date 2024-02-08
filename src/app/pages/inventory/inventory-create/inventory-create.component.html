@@ -1,0 +1,34 @@
+<main class="main" id="main">    
+    <div class="card p-3">
+        <app-pagetitle pagetitle="Create Inventory"></app-pagetitle>
+        <form #form="ngForm" class="row mt-2">
+            <div class="col-md-3">
+                <app-cataloguedropdowncontrolconcomponent DDerrmsg="{{itemdropdownMessage}}" lblname="Item " dropdowntitle="Item" selectstyle="textbox" (selectedvalue)=onchange($event)  defaultValue="catalogueId" [categories]="itmactivelist" filedName="title"  fieldId="id"class="bg-white bg-none"  *ngIf="Isshowselectbox"></app-cataloguedropdowncontrolconcomponent>                                            
+            </div>
+            <!-- <div class="col-md-3">
+                <app-cataloguedropdowncontrolconcomponent DDerrmsg="{{itemdropdownMessage}}" lblname="Item Variant" dropdowntitle="Item Variant" selectstyle="textbox" (selectedvalue)=onchangev($event) defaultValue="catalogueId" [categories]="itmvariantsactivelist" filedName="name"  fieldId="unitId"class="bg-white bg-none"  *ngIf="Isshowselectbox"></app-cataloguedropdowncontrolconcomponent>                                            
+            </div> -->
+            <div class="col-md-3">                            
+                <app-inputcontrol errmsg="{{dateMessage}}" [(inputModel)]="invDate" lblname="Date" type="date" inptclass="mt-0" inputstyle="textbox mt-0 w-100"></app-inputcontrol>
+            </div>
+            <div class="col-md-3">                
+                <app-inputcontrol errmsg="{{batchNoMessage}}"  [(inputModel)]="ivnBatchNo" lblname="BatchNo" type="number"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-3">                
+                <app-inputcontrol errmsg="{{inQtyMessage}}"  [(inputModel)]="invInQty" lblname="InQty" type="number"   inptclass="mb-3"  inputstyle="textbox"></app-inputcontrol>
+            </div>
+            <div class="col-md-12">
+                <app-labelcontrolconcomponent label="Remark "></app-labelcontrolconcomponent>
+                <app-textareacontrolcontrolcomponent  [(inputModel)]="invRemark " class="textarea metaDescText mt-1 rounded-0"></app-textareacontrolcontrolcomponent>
+            </div>
+            <div class="col-md-12">
+                <span class="text-danger">{{mes}}</span>
+            </div>
+            <img *ngIf="loading" style="width:70px;height:70px;object-fit: contain;" class="d-block mx-auto" class="loader-img" src="/assets/images/loader.gif" />
+            <div class="col-md-12 mt-2 text-end">
+                <app-buttoncontrolconcomponent routerLink="/{{inventorylistUrl}}" btnstyle="btn btn-cancel mt-3 me-2 border-0 text-dark px-3" btnname="Cancel"></app-buttoncontrolconcomponent>
+                <app-buttoncontrolconcomponent [btndisable]="loading" (click)="onSubmit(form)"  btnstyle="bg-theme2 mt-3 border-0 px-5 text-white" btnname="Save"></app-buttoncontrolconcomponent>
+            </div>
+        </form>
+    </div>
+</main>
